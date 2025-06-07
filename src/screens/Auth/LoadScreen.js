@@ -1,11 +1,14 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet,SafeAreaView } from 'react-native';
 
 export default function LoadScreen() {
     return (
-        <View>
-            <Text>Load Scren Test.</Text>
-        </View>
+        <SafeAreaView style={styles.container}>
+            <View style={styles.TitleAndTagLineStyles}>
+                <Text>BULK IQ</Text>
+                <Text>Ready to start smashing those goals?</Text>
+            </View>
+        </SafeAreaView>
     )
 }
 
@@ -14,5 +17,15 @@ const styles = StyleSheet.create({
         flex:1, 
         justifyContent: 'center',
         alignItems: 'center', 
+    },
+
+    TitleAndTagLineStyles: {
+        height: 200,
+        display: 'flex',
+        justifyContent: 'space-between',
+        borderWidth: 2,
+        borderColor: 'blue', 
+        alignItems: 'center'
+
     }
 })
