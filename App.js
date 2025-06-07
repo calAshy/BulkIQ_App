@@ -1,8 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import SignUpScreen from './src/screens/Auth/SignUpScreen';
 
 export default function App() {
   return (
+
     <View style={styles.container}>
       <Text>Commit Test (2)</Text>
       <StatusBar style="auto" />
