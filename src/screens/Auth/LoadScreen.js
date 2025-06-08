@@ -8,6 +8,8 @@ export default function LoadScreen() {
                 <Text>BULK IQ</Text>
                 <Text>Ready to start smashing those goals?</Text>
             </View>
+
+            
         </SafeAreaView>
     )
 }
@@ -20,7 +22,7 @@ const styles = StyleSheet.create({
     },
 
     TitleAndTagLineStyles: {
-        height: 200,
+        height: 100,
         display: 'flex',
         justifyContent: 'space-between',
         borderWidth: 2,
