@@ -4,7 +4,11 @@ import { TouchableOpacity, Text, StyleSheet } from "react-native";
 
 const variants = {
     dark: {
-        button: { backgroundColor: '#313131', borderColor: '#595959' },
+        button: { 
+            backgroundColor: '#1d1d1d',
+            borderColor: '#595959',
+            borderWidth: 1,
+         },
         text: { color: 'white' },
     },
 
@@ -39,6 +43,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 10,
         margin: 8,
+        borderColor: 'white',
     },
     text: {
         color: 'white',

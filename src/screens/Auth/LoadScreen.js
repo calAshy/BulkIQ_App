@@ -6,17 +6,17 @@ import { LinearGradient } from 'expo-linear-gradient';
 export default function LoadScreen() {
     return (
         <LinearGradient
-            colors={['#212121', '#0a0a0a', '#0a0a0a', '#212121']}
+            colors={['#1d1d1d', '#0a0a0a', '#0a0a0a', '#1d1d1d']}
             style = {styles.gradientStyles}
         >
             <SafeAreaView style={styles.container}>
                 <View style={styles.TitleAndTagLineStyles}>
-                    <Text>BULK IQ</Text>
-                    <Text>Ready to start smashing those goals?</Text>
+                    <Text style={styles.Wordmark}>BULK IQ</Text>
+                    <Text style={styles.text}>Lets get Started!</Text>
                 </View>
                 <View style={styles.ButtonPositioning}>
-                    <AppButton title = "Login"></AppButton>
-                    <AppButton title = "Sign Up" variant='dark'></AppButton>
+                    <AppButton title = "LOGIN"></AppButton>
+                    <AppButton title = "SIGN UP" variant='dark'></AppButton>
                 </View>
             </SafeAreaView>
         </LinearGradient>
@@ -30,29 +30,35 @@ const styles = StyleSheet.create({
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center', 
-        borderWidth: 2,
-        borderColor: 'red', 
     },
     container: {
         flex:1, 
         justifyContent: 'space-between',
         alignItems: 'center', 
-        borderWidth: 2,
-        borderColor: 'purple', 
     },
 
     TitleAndTagLineStyles: {
+        flex: 1,
         height: 100,
         display: 'flex',
-        justifyContent: 'space-between',
-        borderWidth: 2,
-        borderColor: 'blue', 
-        alignItems: 'center'
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: '#fffff',
+    },
+
+    Wordmark: {
+        color: 'white',
+        fontWeight: 900,
+        fontSize: 30,
+        marginBottom: 8,
+    },
+
+    text: {
+        color: 'white',
     },
 
     ButtonPositioning: {
         flex:0,
-        borderWidth: 2,
-        borderColor: 'green', 
+        marginBottom: 20,
     },
 })
