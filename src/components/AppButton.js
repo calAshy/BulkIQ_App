@@ -4,26 +4,26 @@ import { TouchableOpacity, Text, StyleSheet } from "react-native";
 
 const variants = {
     dark: {
-        button: { backgroundColor: 'black' },
+        button: { backgroundColor: '#313131', borderColor: '#595959' },
         text: { color: 'white' },
     },
 
     light: {
-        button: { backgroundColor: 'white' },
+        button: { backgroundColor: '#F6F6F6' },
         text: { color: 'black' },
     }
 }
 
-export default function AppButton({title, onPress, variant= ' dark ', style, textStyle }){
-const selected = variants[variant] || variants.dark;
+export default function AppButton({title, onPress, variant= 'light', style, textStyle }){
+const selected = variants[variant] || variants.light;
 
     return (
         <TouchableOpacity
              onPress={onPress} 
-             style={[styles.button]}
+             style={[styles.button, selected.button]}
         >
-            <Text style={styles.text}>
-                Button Text
+            <Text style={[styles.text, selected.text]}>
+                {title}
             </Text>
 
         </TouchableOpacity>
@@ -34,6 +34,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'black',
         borderRadius: 3,
         alignItems: 'center',
+        width: 340, 
+        height: 50,
+        justifyContent: 'center',
+        borderRadius: 10,
+        margin: 8,
     },
     text: {
         color: 'white',
