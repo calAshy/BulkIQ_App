@@ -15,7 +15,7 @@ export default function LoadScreen() {
                     <Text style={styles.text}>Lets get Started!</Text>
                 </View>
                 <View style={styles.ButtonPositioning}>
-                    <AppButton title = "LOGIN"></AppButton>
+                    <AppButton title = "LOGIN" onPress={() => alert("Clicked")}></AppButton>
                     <AppButton title = "SIGN UP" variant='dark'></AppButton>
                 </View>
             </SafeAreaView>
@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
 
     Wordmark: {
         color: 'white',
-        fontWeight: 900,
-        fontSize: 30,
+        fontWeight: 800,
+        fontSize: 40,
         marginBottom: 8,
     },
 
@@ -59,6 +59,6 @@ const styles = StyleSheet.create({
 
     ButtonPositioning: {
         flex:0,
-        marginBottom: 20,
+        marginBottom: 30,
     },
 })
