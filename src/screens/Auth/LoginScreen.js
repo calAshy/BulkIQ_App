@@ -2,8 +2,14 @@ import React from 'react';
 import { View, Text, StyleSheet,SafeAreaView } from 'react-native';
 import AppButton from '../../components/AppButton';
 import { LinearGradient } from 'expo-linear-gradient';
+import FormInput from '../../components/FormInput';
+import { useForm } from 'react-hook-form';
+
 
 export default function LoadScreen() {
+
+    const {control, handleSubmit, formState: { errors } } = useForm();
+
     return (
         <LinearGradient
             colors={['#1d1d1d', '#0a0a0a', '#0a0a0a', '#1d1d1d']}
@@ -14,8 +20,13 @@ export default function LoadScreen() {
                     <Text style={styles.Wordmark}>BULK IQ</Text>
                     <Text style={styles.text}>Lets get Started!</Text>
                 </View>
-                <View>
-                    
+                <View style={styles.FormContainer}>
+                    <FormInput
+                        name="email"
+                        control={control}
+                        placeholder="Email"
+                        rules={{ required: "Email is required" }}
+                    />
                 </View>
                 <View style={styles.ButtonPositioning}>
                     <AppButton title = "SIGN UP" variant='dark'></AppButton>
@@ -36,7 +47,8 @@ const styles = StyleSheet.create({
     container: {
         flex:1, 
         justifyContent: 'space-between',
-        alignItems: 'center', 
+        alignItems: 'strech', 
+        width: '100%'
     },
 
     TitleAndTagLineStyles: {
@@ -59,8 +71,16 @@ const styles = StyleSheet.create({
         color: 'white',
     },
 
+    FormContainer: {
+        flex: 1, 
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+    },
+
     ButtonPositioning: {
         flex:0,
         marginBottom: 30,
+        alignItems: 'center',
     },
 })
