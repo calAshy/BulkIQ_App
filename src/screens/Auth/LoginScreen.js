@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet,SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet,SafeAreaView, Pressable } from 'react-native';
 import AppButton from '../../components/AppButton';
 import { LinearGradient } from 'expo-linear-gradient';
 import FormInput from '../../components/FormInput';
@@ -18,18 +18,50 @@ export default function LoadScreen() {
             <SafeAreaView style={styles.container}>
                 <View style={styles.TitleAndTagLineStyles}>
                     <Text style={styles.Wordmark}>BULK IQ</Text>
-                    <Text style={styles.text}>Lets get Started!</Text>
+                    <Text style={styles.text}>Sign Up</Text>
                 </View>
                 <View style={styles.FormContainer}>
+                    <FormInput
+                        name="Name"
+                        control={control}
+                        placeholder="Username"
+                        rules={{ required: "Name is required" }}
+                    />
                     <FormInput
                         name="email"
                         control={control}
                         placeholder="Email"
                         rules={{ required: "Email is required" }}
                     />
+                    <View style={styles.divider} />
+                    <FormInput
+                        name="age"
+                        control={control}
+                        placeholder="Age"
+                        rules={{ required: "Age is required" }}
+                    />
+                                        <FormInput
+                        name="Weight"
+                        control={control}
+                        placeholder="Current Weight"
+                        rules={{ required: "Email is required" }}
+                    />
+                                        <FormInput
+                        name="Height"
+                        control={control}
+                        placeholder="Enter a height"
+                        rules={{ required: "Email is required" }}
+                    />
                 </View>
                 <View style={styles.ButtonPositioning}>
                     <AppButton title = "SIGN UP" variant='dark'></AppButton>
+                </View>
+                <View style={styles.LoginTextContainer}>
+                    <Text style={styles.text}>Already have an account?{' '}
+                            <Text style={styles.LoginLink} onPress={() => alert("Working")}>
+                                Log In
+                            </Text>
+                    </Text>
                 </View>
             </SafeAreaView>
         </LinearGradient>
@@ -76,11 +108,31 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
+        marginBottom: 120,
     },
 
     ButtonPositioning: {
         flex:0,
         marginBottom: 30,
         alignItems: 'center',
+    },
+
+    divider: {
+        height: 1,
+        backgroundColor: 'white',
+        width: '100%', 
+        marginVertical: 20,
+        marginLeft: 10,
+        MarginRight: 10,
+        justifyContent: 'cemter',
+    },
+
+    LoginTextContainer: {
+        alignItems: 'center',
+    },
+
+    LoginLink: {
+        fontWeight: 'bold',
+        color: 'white',
     },
 })
