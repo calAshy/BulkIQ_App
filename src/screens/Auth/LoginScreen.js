@@ -2,7 +2,15 @@ import React from "react";
 import { View, Text, StyleSheet, SafeAreaView } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
+import FormInput from "../../components/FormInput";
+import { useForm } from "react-hook-form";
+
 export default function LoginScreen() {
+  const {
+    control,
+    hendleSubmit,
+    formState: { errors },
+  } = useForm();
   return (
     <LinearGradient
       colors={["#1d1d1d", "#0a0a0a", "#0a0a0a", "#1d1d1d"]}
@@ -13,6 +21,20 @@ export default function LoginScreen() {
           <Text style={styles.Wordmark}>BULK IQ</Text>
           <Text style={styles.text}>Login In</Text>
         </View>
+        <View style={styles.FormContainer}>
+          <FormInput
+            name="email"
+            control={control}
+            placeholder={"Email"}
+            rules={{ required: "Email is required" }}
+          />
+          <FormInput
+            name={"password"}
+            control={control}
+            placeholder={"password"}
+            rules={{ required: "Password is required" }}
+          />
+        </View>
       </SafeAreaView>
     </LinearGradient>
   );
@@ -21,8 +43,6 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   gradientStyles: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
   container: {
     flex: 1,
@@ -43,5 +63,12 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#fff",
+  },
+  FormContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    marginBottom: 120,
   },
 });
