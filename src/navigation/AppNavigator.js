@@ -2,21 +2,15 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-//Import Screens
-import LoadScreen from "../screens/Auth/LoadScreen";
-//import LoginScreen from "../screens/Auth/LoginScreen";
-import SignUpScreen from "../screens/Auth/SignUpScreen";
+import AuthNavigator from "./AuthNavigator";
+//import HomeNavigator from "./HomeNavigator";
 
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigator() {
     return (
         <NavigationContainer>
-            <Stack.Navigator>
-                <Stack.Screen name="Load Screen" component={LoadScreen}/>
-                {/* <Stack.Screen name="Login Screen" component={LoginScreen}/> */}
-                <Stack.Screen name="Sign Up Screen" component={SignUpScreen}/>
-            </Stack.Navigator>
+            <AuthNavigator />
         </NavigationContainer>
     );
 }
