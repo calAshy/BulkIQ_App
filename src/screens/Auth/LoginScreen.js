@@ -1,20 +1,11 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-} from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-
 import AppButton from "../../components/AppButton";
 import FormInput from "../../components/FormInput";
 import { useForm } from "react-hook-form";
 
-export default function LoginScreen() {
+export default function LoginScreen( { navigation } ) {
   const {
     control,
     handleSubmit,
@@ -75,7 +66,7 @@ export default function LoginScreen() {
                 Don't have an account?{" "}
                 <Text
                   style={styles.SignUpLink}
-                  onPress={() => alert("Navigate to Sign Up")}
+                  onPress={() => navigation.navigate("Sign Up Screen")}
                 >
                   Sign Up
                 </Text>

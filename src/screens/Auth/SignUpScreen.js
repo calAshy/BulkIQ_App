@@ -6,7 +6,7 @@ import FormInput from '../../components/FormInput';
 import { useForm } from 'react-hook-form';
 
 
-export default function SignUpScreen() {
+export default function SignUpScreen({navigation }) {
 
     const {control, handleSubmit, formState: { errors } } = useForm();
 
@@ -40,13 +40,13 @@ export default function SignUpScreen() {
                         placeholder="Age"
                         rules={{ required: "Age is required" }}
                     />
-                                        <FormInput
+                    <FormInput
                         name="Weight"
                         control={control}
                         placeholder="Current Weight"
                         rules={{ required: "Email is required" }}
                     />
-                                        <FormInput
+                    <FormInput
                         name="Height"
                         control={control}
                         placeholder="Enter a height"
@@ -58,7 +58,7 @@ export default function SignUpScreen() {
                 </View>
                 <View style={styles.LoginTextContainer}>
                     <Text style={styles.text}>Already have an account?{' '}
-                            <Text style={styles.LoginLink} onPress={() => alert("Working")}>
+                            <Text style={styles.LoginLink} onPress={() => navigation.navigate("Login Screen")}>
                                 Log In
                             </Text>
                     </Text>

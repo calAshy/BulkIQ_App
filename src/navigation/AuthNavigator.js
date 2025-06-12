@@ -5,17 +5,19 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 //Import Screens
 import LoadScreen from "../screens/Auth/LoadScreen";
-//import LoginScreen from "../screens/Auth/LoginScreen";
+import LoginScreen from "../screens/Auth/LoginScreen";
 import SignUpScreen from "../screens/Auth/SignUpScreen";
 
 const AuthStack = createNativeStackNavigator();
 
 export default function AuthNavigator() {
     return (
-//<AuthNavigatorscreenOptions={{headerShown: false}} >
-            <AuthStack.Navigator>
+            <AuthStack.Navigator screenOptions={{headerShown: false}}>
                 <AuthStack.Screen name="Load Screen" component={LoadScreen} options={ { headerShown: false } }/>
-                {/* <Stack.Screen name="Login Screen" component={LoginScreen}/> */}
+
+                {<AuthStack.Screen name="Login Screen" component={LoginScreen} /> }
+
+
                 <AuthStack.Screen name="Sign Up Screen" component={SignUpScreen} />
             </AuthStack.Navigator>
     );
