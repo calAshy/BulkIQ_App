@@ -13,9 +13,9 @@ const AuthStack = createNativeStackNavigator();
 export default function AuthNavigator() {
     return (
             <AuthStack.Navigator>
-                <Stack.Screen name="Load Screen" component={LoadScreen}/>
+                <AuthStack.Screen name="Load Screen" component={LoadScreen}/>
                 {/* <Stack.Screen name="Login Screen" component={LoginScreen}/> */}
-                <Stack.Screen name="Sign Up Screen" component={SignUpScreen}/>
+                <AuthStack.Screen name="Sign Up Screen" component={SignUpScreen}/>
             </AuthStack.Navigator>
     );
 }

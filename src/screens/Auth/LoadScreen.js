@@ -3,7 +3,7 @@ import { View, Text, StyleSheet,SafeAreaView } from 'react-native';
 import AppButton from '../../components/AppButton';
 import { LinearGradient } from 'expo-linear-gradient';
 
-export default function LoadScreen() {
+export default function LoadScreen( {navigation }) {
     return (
         <LinearGradient
             colors={['#1d1d1d', '#0a0a0a', '#0a0a0a', '#1d1d1d']}
@@ -15,8 +15,8 @@ export default function LoadScreen() {
                     <Text style={styles.text}>Lets get Started!</Text>
                 </View>
                 <View style={styles.ButtonPositioning}>
-                    <AppButton title = "LOGIN" onPress={() => alert("Clicked")}></AppButton>
-                    <AppButton title = "SIGN UP" variant='dark'></AppButton>
+                    <AppButton title = "LOGIN"></AppButton>
+                    <AppButton title = "SIGN UP" variant='dark' onPress={() => navigation.navigate("Sign Up Screen")}></AppButton>
                 </View>
             </SafeAreaView>
         </LinearGradient>
