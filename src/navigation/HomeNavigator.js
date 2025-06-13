@@ -6,7 +6,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 //Import Screens
 import HomeScreen from "../screens/Home/HomeScreen";
 
-const AuthStack = createNativeStackNavigator();
+const HomeStack = createNativeStackNavigator();
 
 export default function HomeNavigator() {
     return (

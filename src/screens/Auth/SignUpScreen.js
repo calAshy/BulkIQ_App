@@ -39,7 +39,7 @@ export default function SignUpScreen({ navigation }) {
                 </View>
                 <View style={styles.FormContainer}>
                     <FormInput
-                        name="Name"
+                        name="name"
                         control={control}
                         placeholder="Username"
                         rules={{ required: "Name is required" }}

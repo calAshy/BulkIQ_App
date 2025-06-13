@@ -45,6 +45,7 @@ export default function LoginScreen( { navigation } ) {
                 name={"password"}
                 control={control}
                 placeholder={"password"}
+                secureTextEntry
                 rules={{ required: "Password is required" }}
               />
               <Text
@@ -58,7 +59,7 @@ export default function LoginScreen( { navigation } ) {
               <AppButton
                 title="LOGIN"
                 variant="light"
-                onPress={() => alert("Check details and login user in")}
+                onPress={handleSubmit(handleSubmit)}
               />
             </View>
             <View style={styles.SignUpTextContainer}>
