@@ -57,6 +57,7 @@ export default function SignUpScreen({ navigation }) {
                         secureTextEntry
                         rules={{ required: "Password is required" }}
                     />
+                    {/*
                     <View style={styles.divider} />
                     <FormInput
                         name="age"
@@ -76,6 +77,7 @@ export default function SignUpScreen({ navigation }) {
                         placeholder="Enter a height"
                         rules={{ required: "Height is required" }}
                     />
+                    */}
                 </View>
                 <View style={styles.ButtonPositioning}>
                     <AppButton 
