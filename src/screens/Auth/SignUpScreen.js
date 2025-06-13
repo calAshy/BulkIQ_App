@@ -1,14 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet,SafeAreaView, Pressable } from 'react-native';
 import AppButton from '../../components/AppButton';
 import { LinearGradient } from 'expo-linear-gradient';
 import FormInput from '../../components/FormInput';
 import { useForm } from 'react-hook-form';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../firebase';
 
 
-export default function SignUpScreen({navigation }) {
+export default function SignUpScreen({ navigation }) {
 
     const {control, handleSubmit, formState: { errors } } = useForm();
+    const [error, setError] = useState('');
+
+    //This is the logic for the SignUp Auth
+    const handleSignUp = ( data ) => {
+        const {email, password } = data;
+
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            alert('Account Created: ')
+            //This is where we would put the logic to move to Home Screen.
+        })
+        .catch((err) => {
+            setError(err.message);
+        });
+    }
 
     return (
         <LinearGradient
@@ -33,6 +50,13 @@ export default function SignUpScreen({navigation }) {
                         placeholder="Email"
                         rules={{ required: "Email is required" }}
                     />
+                    <FormInput
+                        name="password"
+                        control={control}
+                        placeholder="Password"
+                        secureTextEntry
+                        rules={{ required: "Password is required" }}
+                    />
                     <View style={styles.divider} />
                     <FormInput
                         name="age"
@@ -44,17 +68,21 @@ export default function SignUpScreen({navigation }) {
                         name="Weight"
                         control={control}
                         placeholder="Current Weight"
-                        rules={{ required: "Email is required" }}
+                        rules={{ required: "Weight is required" }}
                     />
                     <FormInput
                         name="Height"
                         control={control}
                         placeholder="Enter a height"
-                        rules={{ required: "Email is required" }}
+                        rules={{ required: "Height is required" }}
                     />
                 </View>
                 <View style={styles.ButtonPositioning}>
-                    <AppButton title = "SIGN UP" variant='dark'></AppButton>
+                    <AppButton 
+                        title = "SIGN UP" 
+                        variant='dark'
+                        onPress={handleSubmit(handleSignUp)}
+                    />
                 </View>
                 <View style={styles.LoginTextContainer}>
                     <Text style={styles.text}>Already have an account?{' '}
