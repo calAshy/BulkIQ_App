@@ -10,7 +10,8 @@ const firebaseConfig = {
   apiKey: "AIzaSyCJedbXUCmAkqkikt73_4XlH1jjdXEuuWY",
   authDomain: "bulkiqapp.firebaseapp.com",
   projectId: "bulkiqapp",
-  storageBucket: "bulkiqapp.firebasestorage.app", // IMPORTANT!! chatgpt reckons this has an issue but i do not want to change it.
+  storageBucket: "bulkiqapp.firebasestorage.app",
+  //No issue on the firebasestorage.app - Our StorageBucket is correct here, its just firebase usually uses .appspot.com - firebasestorage.app is a new domain recently introduced, so were all good.
   messagingSenderId: "769478007293",
   appId: "1:769478007293:web:b55cebc915410b1985a194",
   measurementId: "G-31DN2KZVXB",
