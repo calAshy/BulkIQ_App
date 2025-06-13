@@ -37,7 +37,7 @@ const styles = StyleSheet.create ({
     },
 
     input: {
-        borderWidth: 1,
+        borderWidth: 0,
         borderColor: '#ccc',
         padding: 12,
         borderRadius: 8,
