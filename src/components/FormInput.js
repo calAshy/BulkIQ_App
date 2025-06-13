@@ -47,10 +47,12 @@ const styles = StyleSheet.create ({
         fontSize: 16,
     },
     errorInput: {
-        borderColor: 'red'
+        borderColor: 'red',
+        borderWidth: 1,
     },
 
     errorText: {
+        marginTop: 3,
         color: 'red',
         fontSize: 12,
     }
