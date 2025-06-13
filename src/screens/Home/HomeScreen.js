@@ -17,7 +17,7 @@ export default function TempLogoutPage( {navigation } ) {
                 </View>
                 <View style={styles.ButtonPositioning}>
 
-                    <AppButton title = "SignOut" onPress={() => navigation.navigate("Load Screen")}>
+                    <AppButton title = "Back to Welcome Screen" onPress={() => navigation.navigate("Load Screen")}>
                     </AppButton>
 
                 </View>

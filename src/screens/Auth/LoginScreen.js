@@ -4,6 +4,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import AppButton from "../../components/AppButton";
 import FormInput from "../../components/FormInput";
 import { useForm } from "react-hook-form";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebase";
 
 export default function LoginScreen( { navigation } ) {
   const {
@@ -12,8 +14,19 @@ export default function LoginScreen( { navigation } ) {
     formState: { errors },
   } = useForm();
 
-  const onLogin = (data) => {
-    console.log("Login Data: ", data);
+  const [loginError, setLoginError] = useState ('');
+
+  const onLogin = async (data) => {
+    const { email, password } = data;
+
+    try{
+      const userCredential = await signInWithEmailAndPassword( auth, email, password);
+      alert("User Logged On: ", userCredential.user);
+      navigate.navigation("Home Screen"); 
+    } catch(error) {
+      alert("Login Error: ", error.message);
+      setLoginError(error.message);
+    }
   };
 
   return (
@@ -38,16 +51,19 @@ export default function LoginScreen( { navigation } ) {
               <FormInput
                 name="email"
                 control={control}
-                placeholder={"email"}
+                placeholder={"Email or Username"}
                 rules={{ required: "Email is required" }}
               />
               <FormInput
                 name={"password"}
                 control={control}
-                placeholder={"password"}
+                placeholder={"Password"}
                 secureTextEntry
                 rules={{ required: "Password is required" }}
               />
+
+              {loginError ? <Text style={{color: 'red' }}> {loginError} </Text> : null}
+
               <Text
                 style={styles.ForgotPassword}
                 onPress={() => alert("Navigate to Forgot Password")}
@@ -59,7 +75,7 @@ export default function LoginScreen( { navigation } ) {
               <AppButton
                 title="LOGIN"
                 variant="light"
-                onPress={handleSubmit(handleSubmit)}
+                onPress={handleSubmit(onLogin)}
               />
             </View>
             <View style={styles.SignUpTextContainer}>
