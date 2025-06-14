@@ -2,8 +2,20 @@ import React from 'react';
 import { View, Text, StyleSheet,SafeAreaView } from 'react-native';
 import AppButton from '../../components/AppButton';
 import { LinearGradient } from 'expo-linear-gradient';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../firebase';
 
-export default function TempLogoutPage( {navigation } ) {
+export default function HomeScreen( {navigation } ) {
+
+    const submitSignOut = async () => {
+        try{
+            await signOut( auth );
+            navigation.navigate("Load Screen")
+        } catch (err) {
+            alert("Signing out Error", err);
+        }
+    };
+
     return (
         <LinearGradient
             colors={['#1d1d1d', '#0a0a0a', '#0a0a0a', '#1d1d1d']}
@@ -17,7 +29,7 @@ export default function TempLogoutPage( {navigation } ) {
                 </View>
                 <View style={styles.ButtonPositioning}>
 
-                    <AppButton title = "Back to Welcome Screen" onPress={() => navigation.navigate("Load Screen")}>
+                    <AppButton title = "Back to Welcome Screen" onPress={(submitSignOut)}>
                     </AppButton>
 
                 </View>

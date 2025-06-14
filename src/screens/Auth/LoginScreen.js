@@ -6,6 +6,7 @@ import FormInput from "../../components/FormInput";
 import { useForm } from "react-hook-form";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
+import { useState } from "react";
 
 export default function LoginScreen( { navigation } ) {
   const {
