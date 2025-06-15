@@ -10,7 +10,6 @@ export default function HomeScreen( {navigation } ) {
     const submitSignOut = async () => {
         try{
             await signOut( auth );
-            navigation.navigate("Load Screen")
         } catch (err) {
             alert("Signing out Error", err);
         }

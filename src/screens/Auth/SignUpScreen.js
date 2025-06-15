@@ -14,18 +14,15 @@ export default function SignUpScreen({ navigation }) {
     const [error, setError] = useState('');
 
     //This is the logic for the SignUp Auth
-    const handleSignUp = ( data ) => {
+    const handleSignUp = async ( data ) => {
         const {email, password } = data;
 
-        createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            alert('Account Created: ')
-            //This is where we would put the logic to move to Home Screen.
-        })
-        .catch((err) => {
-            setError(err.message);
-        });
-    }
+            try {
+                await createUserWithEmailAndPassword( auth, email, password);
+            } catch (err) {
+                setError(err.message);
+            }
+    };
 
     return (
         <LinearGradient

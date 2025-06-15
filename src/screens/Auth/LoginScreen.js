@@ -9,10 +9,11 @@ import { auth } from "../../firebase";
 import { useState } from "react";
 
 export default function LoginScreen( { navigation } ) {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
+
+
+  //Login Auth Logic
+  const { 
+    control, handleSubmit,formState: { errors },
   } = useForm();
 
   const [loginError, setLoginError] = useState ('');
@@ -22,13 +23,27 @@ export default function LoginScreen( { navigation } ) {
 
     try{
       const userCredential = await signInWithEmailAndPassword( auth, email, password);
-      alert("User Logged On: ", userCredential.user);
-      navigate.navigation("Home Screen"); 
-    } catch(error) {
-      alert("Login Error: ", error.message);
-      setLoginError(error.message);
+      alert("Login Worked");
+    } catch(error) {  
+        switch(error.code){
+          case "auth/invalid-credential":
+          case "auth/wrong-password":
+            setLoginError("Incorrect Password");
+            break;
+          case "auth/invalid-email":
+            setLoginError("Invalid Email.");
+            break;
+          case "auth/user-not-found":
+            setLoginError("No account found with this email.");
+            break;
+          default:
+            setLoginError("Login Failed. Please try again");
+        }
+
+    
     }
   };
+    //Login Auth Logic End.
 
   return (
     <LinearGradient
