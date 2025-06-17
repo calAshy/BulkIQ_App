@@ -5,9 +5,9 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 export default function Header ({ navigation, title }) {
     return (
-        <View>
+        <View style={styles.container}>
             <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-                <Text></Text>
+                <Text style={styles.icon}></Text>
             </TouchableOpacity>
             <Text>Title</Text>
             <View />
