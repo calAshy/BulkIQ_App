@@ -2,7 +2,7 @@
 
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
+import Header from "../components/Header";
 //Import Screens
 import HomeScreen from "../screens/Home/HomeScreen";
 
@@ -10,7 +10,12 @@ const HomeStack = createNativeStackNavigator();
 
 export default function HomeNavigator() {
     return (
-            <HomeStack.Navigator screenOptions={{headerShown: false}}>
+        //StackNavigator houses call for Header component. 
+            <HomeStack.Navigator   
+            screenOptions={({ navigation }) => ({
+                header: () => <Header navigation={navigation} title="Home" />
+            })}
+            >
                 <HomeStack.Screen name="Home Screen" component={HomeScreen}/>
             </HomeStack.Navigator>
     );
