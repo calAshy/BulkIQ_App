@@ -18,12 +18,12 @@ export default function Header ({ navigation, title }) {
 const styles = StyleSheet.create({
 
     SafeArea: {
-        backgroundColor: 'green'
+        //backgroundColor: 'green'
     },
 
     container: {
         height: 70,
-        backgroundColor: 'red',
+        backgroundColor: '#343434',
         paddingHorizontal: 15,
         flexDirection: 'row',
         alignItems: 'center',
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 800,
         fontSize: 20,
-        backgroundColor: 'purple'
+        //backgroundColor: 'purple'
     },
     placeholder: {
         width: 24, 
