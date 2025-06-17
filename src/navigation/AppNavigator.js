@@ -6,7 +6,7 @@ import { auth } from "../firebase";
 import { useState } from "react";
 
 import AuthNavigator from "./AuthNavigator";
-import HomeNavigator from "./HomeNavigator";
+import MainNavigator from "./MainNavigator";
 
 const Stack = createNativeStackNavigator();
 
@@ -30,7 +30,7 @@ export default function AppNavigator() {
 
     return (
         <NavigationContainer>
-            {user ? <HomeNavigator /> : <AuthNavigator />}
+            {user ? <MainNavigator /> : <AuthNavigator />}
         </NavigationContainer>
     );
 }
