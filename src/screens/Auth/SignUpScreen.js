@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet,SafeAreaView, Pressable } from 'react-native';
+import { View, Text, StyleSheet,SafeAreaView, Pressable, Alert } from 'react-native';
 import AppButton from '../../components/AppButton';
 import { LinearGradient } from 'expo-linear-gradient';
 import FormInput from '../../components/FormInput';
 import { useForm } from 'react-hook-form';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../firebase';
+import { auth, db } from '../../firebase';
+import { doc, setDoc } from 'firebase/firestore';
+
 
 
 export default function SignUpScreen({ navigation }) {
@@ -15,10 +17,22 @@ export default function SignUpScreen({ navigation }) {
 
     //This is the logic for the SignUp Auth
     const handleSignUp = async ( data ) => {
-        const {email, password } = data;
+        const {name, email, password } = data;
 
             try {
-                await createUserWithEmailAndPassword( auth, email, password);
+                //Step 1: Create the user with the email and password.
+                const userCredential = await createUserWithEmailAndPassword( auth, email, password);
+                const user = userCredential.user;
+                
+                //Step 2: Save the username and email to the firestore.
+                await setDoc(doc(db, 'users', user.uid), {
+                    username: name, 
+                    email: email, 
+                    createdAt: new Date(),
+                });
+                
+                Alert.alert('Sign up Successful', `username: ${name}/n Email: ${email}`)
+
             } catch (err) {
                 setError(err.message);
             }

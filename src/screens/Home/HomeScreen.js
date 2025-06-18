@@ -1,12 +1,13 @@
-import React from 'react';
-import { View, Text, StyleSheet,SafeAreaView, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet,SafeAreaView, ScrollView, Alert } from 'react-native';
 import AppButton from '../../components/AppButton';
 import { LinearGradient } from 'expo-linear-gradient';
 import { signOut } from 'firebase/auth';
-import { auth } from '../../firebase';
+import { auth, db } from '../../firebase';
 import SecondaryButton from '../../components/SecondaryButton.js';
+import { doc, getDoc } from 'firebase/firestore';
 
-export default function HomeScreen( {navigation } ) {
+export default function HomeScreen({ navigation }) {
 
     const submitSignOut = async () => {
         try{
@@ -19,6 +20,36 @@ export default function HomeScreen( {navigation } ) {
     const today = new Date();
     const formattedDate = today.toDateString();
 
+    //Retrieve and display the current username function: 
+    const fetchUsername = async () => {
+        try {
+            //Get the current user: 
+            const user = auth.currentUser;
+            //Get their UID 
+            const uid = user.uid;
+            //Create the reference to their unique document in the 'users' collection: 
+            const userDocRef = doc(db, 'users', uid);
+            //Fetch the document: 
+            const userDoc = await getDoc(userDocRef);
+            //Double check if the doc actuallt exists: 
+            if (userDoc.exists()){
+                const data = userDoc.data(); 
+                setUsername(data.username);
+            } else {
+                Alert.alert ('Document does not exist') //Debugging function, remove once code is bug free. 
+            }
+        } catch (error) { 
+            Alert.alert('Error fetching user data');
+        }
+        
+    };
+
+    useEffect(() => {
+        fetchUsername();
+    }, []); //The [] means that the useEffect should only be run once when the document loads, not continuously.
+    
+    const [username, setUsername] = useState('');
+
     return (
         <LinearGradient
             colors={['#1d1d1d', '#0a0a0a', '#0a0a0a', '#1d1d1d']}
@@ -29,12 +60,12 @@ export default function HomeScreen( {navigation } ) {
                     
                     <View style={styles.IntroductionContainer }>
                         <View style={styles.WelcomeAndDateText}>
-                            <Text style={styles.WelcomeText}>Welcome, Username!</Text>
+                            <Text style={styles.WelcomeText}>Welcome, {username}!</Text>
                             <Text style={styles.DateText}>{formattedDate}</Text>
                         </View>
 
                         <SecondaryButton 
-                            title= "Start a workout" onPress={() => alert("Navigate to workout form")}>
+                            title= "Start a workout" onPress={submitSignOut}>
                         </SecondaryButton>
                         
                     </View>

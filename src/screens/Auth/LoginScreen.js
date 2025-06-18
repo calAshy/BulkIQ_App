@@ -23,7 +23,6 @@ export default function LoginScreen( { navigation } ) {
 
     try{
       const userCredential = await signInWithEmailAndPassword( auth, email, password);
-      alert("Login Worked");
     } catch(error) {  
         switch(error.code){
           case "auth/invalid-credential":
