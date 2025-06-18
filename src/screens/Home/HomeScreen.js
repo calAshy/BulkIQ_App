@@ -4,6 +4,7 @@ import AppButton from '../../components/AppButton';
 import { LinearGradient } from 'expo-linear-gradient';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../firebase';
+import SecondaryButton from '../../components/SecondaryButton.js';
 
 export default function HomeScreen( {navigation } ) {
 
@@ -22,14 +23,31 @@ export default function HomeScreen( {navigation } ) {
         >
             <SafeAreaView style={styles.container}>
                 <ScrollView style={ styles.scrollView }>
+                    
+                    <View style={styles.IntroductionContainer }>
+                        <View style={styles.WelcomeAndDateText}>
+                            <Text style={styles.WelcomeText}>Welcome, Username!</Text>
+                            <Text style={styles.DateText}>date</Text>
+                        </View>
+
+                        <SecondaryButton 
+                            title= "Start a workout" onPress={() => alert("Navigate to workout form")}>
+                        </SecondaryButton>
+                        
+                    </View>
 
 
+{/* 
                     <View style={styles.ButtonPositioning}>
 
                         <AppButton title = "Back to Welcome Screen" onPress={(submitSignOut)}>
                         </AppButton>
 
-                    </View>
+                    </View> */}
+
+
+
+
                 </ScrollView>
             </SafeAreaView>
 
@@ -60,23 +78,13 @@ const styles = StyleSheet.create({
         borderWidth: 2,
     },
 
-    TitleAndTagLineStyles: {
-        flex: 1,
-        height: 100,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        color: '#fffff',
-    },
 
-    Wordmark: {
+
+
+    WelcomeText: {
         color: 'white',
-        fontWeight: 800,
-        fontSize: 40,
-        marginBottom: 8,
     },
-
-    text: {
+    DateText: {
         color: 'white',
     },
 
