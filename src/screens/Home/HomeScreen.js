@@ -16,6 +16,9 @@ export default function HomeScreen( {navigation } ) {
         }
     };
 
+    const today = new Date();
+    const formattedDate = today.toDateString();
+
     return (
         <LinearGradient
             colors={['#1d1d1d', '#0a0a0a', '#0a0a0a', '#1d1d1d']}
@@ -27,7 +30,7 @@ export default function HomeScreen( {navigation } ) {
                     <View style={styles.IntroductionContainer }>
                         <View style={styles.WelcomeAndDateText}>
                             <Text style={styles.WelcomeText}>Welcome, Username!</Text>
-                            <Text style={styles.DateText}>date</Text>
+                            <Text style={styles.DateText}>{formattedDate}</Text>
                         </View>
 
                         <SecondaryButton 
@@ -65,27 +68,36 @@ const styles = StyleSheet.create({
     },
     scrollView: {
         width: '100%',
-        borderColor: 'green',
-        borderWidth: 2,
+        //borderColor: 'green',
+        //borderWidth: 2,
     },
 
-    container: {
+    container: { //Safearea View Container.
         flex:1, 
         justifyContent: 'space-between',
         alignItems: 'center', 
         width: '100%',
-        borderColor: 'red',
-        borderWidth: 2,
+        //borderColor: 'red',
+        //borderWidth: 2,
     },
 
-
-
+    IntroductionContainer: {
+        flex: 1,
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        marginHorizontal: 10, 
+        marginVertical: 20,
+    },
 
     WelcomeText: {
         color: 'white',
+        fontWeight: 800,
+        fontSize: 20,
     },
     DateText: {
         color: 'white',
+        fontWeight: 300,
+        fontSize: 15,
     },
 
     ButtonPositioning: {

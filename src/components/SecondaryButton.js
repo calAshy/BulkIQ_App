@@ -19,8 +19,12 @@ export default function SecondaryButton({title, onPress }){
 const styles = StyleSheet.create ({
 
 buttonDesign: {
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: 'white',
+    borderRadius: 10,
+    alignContent: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 10,
 },
 
 text: {
