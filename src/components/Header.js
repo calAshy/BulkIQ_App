@@ -7,10 +7,10 @@ import HamburgerIcon from "./HamburgerMenu";
 export default function Header ({ navigation, title }) {
     return (
         <SafeAreaView style={styles.SafeArea}>
-            <View style={styles.container}>
-                <HamburgerIcon onPress={() => navigation.toggleDrawer()} />
-                <Text style={styles.title}>BULK HQ</Text>
-            </View>
+                <View style={styles.container}>
+                    <HamburgerIcon onPress={() => navigation.toggleDrawer()} />
+                    <Text style={styles.title}>BULK HQ</Text>
+                </View>
         </SafeAreaView>
     )
 }
@@ -18,16 +18,19 @@ export default function Header ({ navigation, title }) {
 const styles = StyleSheet.create({
 
     SafeArea: {
-        //backgroundColor: 'green'
+        backgroundColor: '#1d1d1d',
     },
 
     container: {
         height: 70,
-        backgroundColor: '#343434',
-        paddingHorizontal: 15,
+        backgroundColor: '#1d1d1d',
+        paddingHorizontal: 18,
+        paddingBottom: 10,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        borderBottomWidth: 2,
+        borderBottomColor: 'white',
     },
     icon: {
         color: 'white',

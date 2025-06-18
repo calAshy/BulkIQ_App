@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet,SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet,SafeAreaView, ScrollView } from 'react-native';
 import AppButton from '../../components/AppButton';
 import { LinearGradient } from 'expo-linear-gradient';
 import { signOut } from 'firebase/auth';
@@ -21,18 +21,18 @@ export default function HomeScreen( {navigation } ) {
             style = {styles.gradientStyles}
         >
             <SafeAreaView style={styles.container}>
-                <View style={styles.TitleAndTagLineStyles}>
-                    <Text style={styles.Wordmark}>BULK IQ</Text>
-                    <Text style={styles.text}>Temporary Signout Page</Text>
-                    <Text style={styles.text}>This page is just used to help us get our Auth Flow correct</Text>
-                </View>
-                <View style={styles.ButtonPositioning}>
+                <ScrollView style={ styles.scrollView }>
 
-                    <AppButton title = "Back to Welcome Screen" onPress={(submitSignOut)}>
-                    </AppButton>
 
-                </View>
+                    <View style={styles.ButtonPositioning}>
+
+                        <AppButton title = "Back to Welcome Screen" onPress={(submitSignOut)}>
+                        </AppButton>
+
+                    </View>
+                </ScrollView>
             </SafeAreaView>
+
         </LinearGradient>
     )
 }
@@ -45,10 +45,19 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center', 
     },
+    scrollView: {
+        width: '100%',
+        borderColor: 'green',
+        borderWidth: 2,
+    },
+
     container: {
         flex:1, 
         justifyContent: 'space-between',
         alignItems: 'center', 
+        width: '100%',
+        borderColor: 'red',
+        borderWidth: 2,
     },
 
     TitleAndTagLineStyles: {
