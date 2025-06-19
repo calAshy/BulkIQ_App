@@ -5,7 +5,7 @@ import { StyleSheet } from "react-native";
 
 //children and style props are passed to all for components to be placed inside the fucntion and style for any changes we want to make on each individual screen. 
 
-function BacckgroundLinearGradient({ children, style }) {
+function BackgroundLinearGradient({ children, style }) {
     return(
         <LinearGradient 
         colors={['#1d1d1d', '#0a0a0a', '#0a0a0a', '#1d1d1d']} 
@@ -16,7 +16,7 @@ function BacckgroundLinearGradient({ children, style }) {
     )
 }
 
- export {BacckgroundLinearGradient};
+ export {BackgroundLinearGradient};
 
  const styles = StyleSheet.create = {
     LinearGradientStyle: {

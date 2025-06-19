@@ -1,21 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet,SafeAreaView, ScrollView, Alert } from 'react-native';
-import { signOut } from 'firebase/auth';
-import { auth, db } from '../../Firebase/firebase.js';
 import SecondaryButton from '../../components/SecondaryButton.js';
 import { fetchUsername } from '../../Firebase/userService.js';
 import { formattedDate } from '../../utils/CurrentDate.js';
-import { BacckgroundLinearGradient } from '../../utils/BackgroundLinearGradient.js';
+import { BackgroundLinearGradient } from '../../utils/BackgroundLinearGradient.js';
+import { submitSignOut } from '../../Firebase/authController.js';
 
 export default function HomeScreen({ navigation }) {
-
-    const submitSignOut = async () => {
-        try{
-            await signOut( auth );
-        } catch (err) {
-            alert("Signing out Error", err);
-        }
-    };
 
     //Retrieve and display username code
     useEffect(() => {
@@ -29,37 +20,22 @@ export default function HomeScreen({ navigation }) {
     //Retrieve and display username code
 
     return (
+
         <BackgroundLinearGradient>
             <SafeAreaView style={styles.container}>
                 <ScrollView style={ styles.scrollView }>
-                    
                     <View style={styles.IntroductionContainer }>
                         <View style={styles.WelcomeAndDateText}>
                             <Text style={styles.WelcomeText}>Welcome, {username}!</Text>
                             <Text style={styles.DateText}>{formattedDate}</Text>
                         </View>
-
                         <SecondaryButton 
                             title= "Start a workout" onPress={submitSignOut}>
                         </SecondaryButton>
-                        
                     </View>
-
-
-{/* 
-                    <View style={styles.ButtonPositioning}>
-
-                        <AppButton title = "Back to Welcome Screen" onPress={(submitSignOut)}>
-                        </AppButton>
-
-                    </View> */}
-
-
-
 
                 </ScrollView>
             </SafeAreaView>
-
         </BackgroundLinearGradient>
     )
 };
