@@ -3,9 +3,11 @@ import { View, Text, StyleSheet,SafeAreaView, ScrollView, Alert } from 'react-na
 import AppButton from '../../components/AppButton';
 import { LinearGradient } from 'expo-linear-gradient';
 import { signOut } from 'firebase/auth';
-import { auth, db } from '../../firebase';
+import { auth, db } from '../../Firebase/firebase.js';
 import SecondaryButton from '../../components/SecondaryButton.js';
 import { doc, getDoc } from 'firebase/firestore';
+import { fetchUsername } from '../../Firebase/userService.js';
+import { formattedDate } from '../../utils/CurrentDate.js';
 
 export default function HomeScreen({ navigation }) {
 
@@ -17,36 +19,15 @@ export default function HomeScreen({ navigation }) {
         }
     };
 
-    const today = new Date();
-    const formattedDate = today.toDateString();
-
-    //Retrieve and display the current username function: 
-    const fetchUsername = async () => {
-        try {
-            //Get the current user: 
-            const user = auth.currentUser;
-            //Get their UID 
-            const uid = user.uid;
-            //Create the reference to their unique document in the 'users' collection: 
-            const userDocRef = doc(db, 'users', uid);
-            //Fetch the document: 
-            const userDoc = await getDoc(userDocRef);
-            //Double check if the doc actuallt exists: 
-            if (userDoc.exists()){
-                const data = userDoc.data(); 
-                setUsername(data.username);
-            } else {
-                Alert.alert ('Document does not exist') //Debugging function, remove once code is bug free. 
-            }
-        } catch (error) { 
-            Alert.alert('Error fetching user data');
-        }
-        
-    };
 
     useEffect(() => {
-        fetchUsername();
-    }, []); //The [] means that the useEffect should only be run once when the document loads, not continuously.
+        const getUsername = async () => {
+            const name = await fetchUsername();
+            if (name) setUsername(name);
+        };
+        
+        getUsername();
+        }, []); //The [] means that the useEffect should only be run once when the document loads, not continuously.
     
     const [username, setUsername] = useState('');
 

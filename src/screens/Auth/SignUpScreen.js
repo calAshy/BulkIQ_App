@@ -5,7 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import FormInput from '../../components/FormInput';
 import { useForm } from 'react-hook-form';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth, db } from '../../firebase';
+import { auth, db } from '../../Firebase/firebase';
 import { doc, setDoc } from 'firebase/firestore';
 
 

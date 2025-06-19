@@ -2,7 +2,7 @@ import React from 'react';
 import AppNavigator from './src/navigation/AppNavigator';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-import './src/firebase';
+import './src/Firebase/firebase';
 
 export default function App() {
   return (
