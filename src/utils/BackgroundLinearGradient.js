@@ -1,6 +1,6 @@
 //Util for our linear background gradient.
 
-import LinearGradient from "react-native-linear-gradient";
+import { LinearGradient } from 'expo-linear-gradient';
 import { StyleSheet } from "react-native";
 
 //children and style props are passed to all for components to be placed inside the fucntion and style for any changes we want to make on each individual screen. 
@@ -18,7 +18,7 @@ function BackgroundLinearGradient({ children, style }) {
 
  export {BackgroundLinearGradient};
 
- const styles = StyleSheet.create = {
+ const styles = StyleSheet.create ({
     LinearGradientStyle: {
         flex: 1, 
         width: '100%',
@@ -26,4 +26,4 @@ function BackgroundLinearGradient({ children, style }) {
         justifyContent: 'center',
         alignItems: 'center',
     },
- }
+ });

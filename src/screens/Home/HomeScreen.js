@@ -5,6 +5,7 @@ import { fetchUsername } from '../../Firebase/userService.js';
 import { formattedDate } from '../../utils/CurrentDate.js';
 import { BackgroundLinearGradient } from '../../utils/BackgroundLinearGradient.js';
 import { submitSignOut } from '../../Firebase/authController.js';
+import BottomNav from '../../components/NavBar.js';
 
 export default function HomeScreen({ navigation }) {
 
@@ -33,8 +34,8 @@ export default function HomeScreen({ navigation }) {
                             title= "Start a workout" onPress={submitSignOut}>
                         </SecondaryButton>
                     </View>
-
                 </ScrollView>
+                <BottomNav />
             </SafeAreaView>
         </BackgroundLinearGradient>
     )
