@@ -21,10 +21,10 @@ const styles = StyleSheet.create ({
 buttonDesign: {
     borderWidth: 2,
     borderColor: 'white',
-    borderRadius: 10,
+    borderRadius: 18,
     alignContent: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
 },
 
 text: {
