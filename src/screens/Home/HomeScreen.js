@@ -35,8 +35,8 @@ export default function HomeScreen({ navigation }) {
                         </SecondaryButton>
                     </View>
                 </ScrollView>
-                <BottomNav />
             </SafeAreaView>
+            <BottomNav />
         </BackgroundLinearGradient>
     )
 };

@@ -46,11 +46,12 @@ const styles = StyleSheet.create ({
         justifyContent: 'space-around',
         alignItems: 'center',
         paddingVertical: 10,
-        borderTopWidth: 1,
+       // borderTopWidth: 1,
         borderTopColor: '#ccc',
         backgroundColor: '#fff',
-        height: 65,
-        backgroundColor: 'rgba(29,29,29,0)',
-        width: '100%'
+        backgroundColor: '#1a1a1a',
+        width: '100%',
+        paddingBottom: 50,
+        paddingTop: 20,
     },
 });
