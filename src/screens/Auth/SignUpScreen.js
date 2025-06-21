@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet,SafeAreaView, Pressable, Alert } from 'react-native';
 import AppButton from '../../components/AppButton';
 import { LinearGradient } from 'expo-linear-gradient';
-import FormInput from '../../components/FormInput';
+import AuthFormInput from "../../components/AuthFormInput";
 import { useForm } from 'react-hook-form';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '../../Firebase/firebase';
@@ -49,19 +49,19 @@ export default function SignUpScreen({ navigation }) {
                     <Text style={styles.text}>Sign Up</Text>
                 </View>
                 <View style={styles.FormContainer}>
-                    <FormInput
+                    <AuthFormInput
                         name="name"
                         control={control}
                         placeholder="Username"
                         rules={{ required: "Name is required" }}
                     />
-                    <FormInput
+                    <AuthFormInput
                         name="email"
                         control={control}
                         placeholder="Email"
                         rules={{ required: "Email is required" }}
                     />
-                    <FormInput
+                    <AuthFormInput
                         name="password"
                         control={control}
                         placeholder="Password"
@@ -70,19 +70,19 @@ export default function SignUpScreen({ navigation }) {
                     />
                     {/*
                     <View style={styles.divider} />
-                    <FormInput
+                    <AuthFormInput
                         name="age"
                         control={control}
                         placeholder="Age"
                         rules={{ required: "Age is required" }}
                     />
-                    <FormInput
+                    <AuthFormInput
                         name="Weight"
                         control={control}
                         placeholder="Current Weight"
                         rules={{ required: "Weight is required" }}
                     />
-                    <FormInput
+                    <AuthFormInput
                         name="Height"
                         control={control}
                         placeholder="Enter a height"

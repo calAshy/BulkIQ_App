@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet,SafeAreaView, ScrollView, Alert } from 'react-native';
+import { View, Text, StyleSheet,SafeAreaView, ScrollView, Alert, Button } from 'react-native';
 import SecondaryButton from '../../components/SecondaryButton.js';
 import { fetchUsername } from '../../Firebase/userService.js';
 import { formattedDate } from '../../utils/CurrentDate.js';
@@ -30,9 +30,9 @@ export default function HomeScreen({ navigation }) {
                             <Text style={styles.WelcomeText}>Welcome, {username}!</Text>
                             <Text style={styles.DateText}>{formattedDate}</Text>
                         </View>
-                        <SecondaryButton 
-                            title= "Start a workout" onPress={submitSignOut}>
-                        </SecondaryButton>
+                        <Button 
+                            title= "Start a workout" onPress={() => navigation.navigate('Workout Form')}
+                        />
                     </View>
                 </ScrollView>
             </SafeAreaView>

@@ -8,6 +8,7 @@ import Header from "../components/Header";
 
 //Import Screens
 import HomeScreen from "../screens/Home/HomeScreen";
+import WorkoutForm from "../screens/Workout/WorkoutScreen";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -16,11 +17,12 @@ function HomeStackNavigator() {
     return (
         //StackNavigator houses call for Header component. 
             <Stack.Navigator   
-            screenOptions={({ navigation }) => ({
+                screenOptions={({ navigation }) => ({
                 header: () => <Header navigation={navigation} title="Home" />
             })}
             >
                 <Stack.Screen name="Home Screen" component={HomeScreen}/>
+                <Stack.Screen name="Workout Form" component={WorkoutForm}/>
             </Stack.Navigator>
     );
 }

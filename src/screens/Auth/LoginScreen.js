@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, SafeAreaView, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import AppButton from "../../components/AppButton";
-import FormInput from "../../components/FormInput";
+import AuthFormInput from "../../components/AuthFormInput";
 import { useForm } from "react-hook-form";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../Firebase/firebase";
@@ -63,13 +63,13 @@ export default function LoginScreen( { navigation } ) {
               <Text style={styles.text}>Login</Text>
             </View>
             <View style={styles.FormContainer}>
-              <FormInput
+              <AuthFormInput
                 name="email"
                 control={control}
                 placeholder={"Email or Username"}
                 rules={{ required: "Email is required" }}
               />
-              <FormInput
+              <AuthFormInput
                 name={"password"}
                 control={control}
                 placeholder={"Password"}
