@@ -1,69 +1,84 @@
-import React from 'react';
-import { View, Text, StyleSheet,SafeAreaView } from 'react-native';
-import AppButton from '../../components/AppButton';
-import { LinearGradient } from 'expo-linear-gradient';
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import AppButton from "../../components/AppButton";
+import { LinearGradient } from "expo-linear-gradient";
 
-export default function LoadScreen( {navigation } ) {
-    return (
-        <LinearGradient
-            colors={['#1d1d1d', '#0a0a0a', '#0a0a0a', '#1d1d1d']}
-            style = {styles.gradientStyles}
-        >
-            <SafeAreaView style={styles.container}>
-                <View style={styles.TitleAndTagLineStyles}>
-                    <Text style={styles.Wordmark}>BULK IQ</Text>
-                    <Text style={styles.text}>Lets get Started!</Text>
-                </View>
-                <View style={styles.ButtonPositioning}>
+export default function LoadScreen({ navigation }) {
+  const insets = useSafeAreaInsets();
+  return (
+    <LinearGradient
+      colors={["#1d1d1d", "#0a0a0a", "#0a0a0a", "#1d1d1d"]}
+      style={styles.gradientStyles}
+    >
+      <View
+        style={[
+          styles.container,
+          {
+            paddingTop: insets.top,
+            paddingBottom: insets.bottom,
+            paddingLeft: 16 + insets.left,
+            paddingRight: 16 + insets.right,
+          },
+        ]}
+      >
+        <View style={styles.TitleAndTagLineStyles}>
+          <Text style={styles.Wordmark}>BULK IQ</Text>
+          <Text style={styles.text}>Lets get Started!</Text>
+        </View>
+        <View style={styles.ButtonPositioning}>
+          <AppButton
+            title="LOGIN"
+            onPress={() => navigation.navigate("Login Screen")}
+          ></AppButton>
 
-                    <AppButton title = "LOGIN" onPress={() => navigation.navigate("Login Screen")}>
-                    </AppButton>
-
-                    <AppButton title = "SIGN UP" variant='dark' onPress={() => navigation.navigate("Sign Up Screen")}>
-                    </AppButton>
-
-                </View>
-            </SafeAreaView>
-        </LinearGradient>
-    )
+          <AppButton
+            title="SIGN UP"
+            variant="dark"
+            onPress={() => navigation.navigate("Sign Up Screen")}
+          ></AppButton>
+        </View>
+      </View>
+    </LinearGradient>
+  );
 }
 
 const styles = StyleSheet.create({
-    gradientStyles:{
-        flex:1, 
-        width: '100%',
-        height: '100%',
-        justifyContent: 'center',
-        alignItems: 'center', 
-    },
-    container: {
-        flex:1, 
-        justifyContent: 'space-between',
-        alignItems: 'center', 
-    },
+  gradientStyles: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  container: {
+    flex: 1,
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
 
-    TitleAndTagLineStyles: {
-        flex: 1,
-        height: 100,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        color: '#fffff',
-    },
+  TitleAndTagLineStyles: {
+    flex: 1,
+    height: 100,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "#fffff",
+  },
 
-    Wordmark: {
-        color: 'white',
-        fontWeight: 800,
-        fontSize: 40,
-        marginBottom: 8,
-    },
+  Wordmark: {
+    color: "white",
+    fontWeight: 800,
+    fontSize: 40,
+    marginBottom: 8,
+  },
 
-    text: {
-        color: 'white',
-    },
+  text: {
+    color: "white",
+  },
 
-    ButtonPositioning: {
-        flex:0,
-        marginBottom: 30,
-    },
-})
+  ButtonPositioning: {
+    flex: 0,
+    marginBottom: 30,
+  },
+});
