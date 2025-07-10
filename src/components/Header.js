@@ -7,6 +7,8 @@ import HamburgerIcon from "./HamburgerMenu";
 
 export default function Header({ navigation, title }) {
   const insets = useSafeAreaInsets();
+
+  console.log(insets);
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
       <HamburgerIcon

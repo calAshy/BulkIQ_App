@@ -7,6 +7,7 @@ import {
   Alert,
   Button,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import SecondaryButton from "../../components/SecondaryButton.js";
 import { fetchUsername } from "../../Firebase/userService.js";
@@ -17,6 +18,7 @@ import BottomNav from "../../components/NavBar.js";
 
 export default function HomeScreen({ navigation }) {
   const [username, setUsername] = useState("");
+  const insets = useSafeAreaInsets();
   //Retrieve and display username code
   useEffect(() => {
     const getUsername = async () => {
@@ -34,12 +36,23 @@ export default function HomeScreen({ navigation }) {
             <Text style={styles.WelcomeText}>Welcome, {username}!</Text>
             <Text style={styles.DateText}>{formattedDate}</Text>
           </View>
-          <Button
-            title="Start a workout"
-            onPress={() => navigation.navigate("Workout Form")}
-          />
         </View>
-        <ScrollView style={styles.scrollView}></ScrollView>
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={{
+            paddingLeft: 16 + insets.left,
+            paddingRight: 16 + insets.right,
+            paddingTop: 12,
+          }}
+        >
+          <View style={styles.ScrollHeaderRow}>
+            <Text style={styles.ScrollHeaderTitle}>Workout Diary</Text>
+            <SecondaryButton
+              title="Start a workout"
+              onPress={() => navigation.navigate("Workout Form")}
+            />
+          </View>
+        </ScrollView>
       </View>
       <BottomNav />
     </BackgroundLinearGradient>
@@ -49,7 +62,7 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     //Safearea View Container.
-    paddingTop: 20,
+    paddingTop: 10,
     flex: 1,
     // justifyContent: "space-between",
     // alignItems: "center",
@@ -65,17 +78,28 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    borderBottomWidth: 1,
-    borderColor: "rgba(255,255,255,0.2)",
+    // borderBottomWidth: 1,
+    // borderColor: "rgba(255,255,255,0.2)",
     // borderColor: "yellow",
     // borderWidth: 2,
   },
 
   scrollView: {
     flex: 1,
+    // paddingHorizontal: 20,
     // width: "100%",
     borderColor: "green",
     borderWidth: 2,
+  },
+  ScrollHeaderRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  ScrollHeaderTitle: {
+    color: "white",
+    fontSize: 24,
+    fontWeight: "bold",
   },
 
   WelcomeText: {
