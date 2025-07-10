@@ -1,32 +1,44 @@
 import React from "react";
-import { View, StyleSheet, LogBox, Text, SafeAreaView, TextInput} from 'react-native';
+import { View, StyleSheet, LogBox, Text, SafeAreaView, TextInput, ScrollView} from 'react-native';
 import { BackgroundLinearGradient } from "../../utils/BackgroundLinearGradient";
+import { DateDisplay } from "../../utils/CurrentDate";
+import EllipseMenu from "../../components/EllipseMenu";
+import AppButton from "../../components/AppButton";
 
 export default function WorkoutForm() {
     return(
         <BackgroundLinearGradient>
             <SafeAreaView style={styles.SafeAreaView}>
-                <View style={styles.MainContainer}>
+                <ScrollView style={styles.SafeAreaView}>
+                    <View style={styles.MainContainer}>
+                        <View style={styles.LogMetaContainer}>
 
-                    <View style={styles.LogMetaContainer}>
-                        <View style={styles.LogMeta}>
-                            <Text style={styles.Text}>Workout Title:</Text>
-                            <TextInput value="Title"/>
+                            <View style={styles.LogMeta}>
+                                <Text style={styles.TitleText}>Workout Title:</Text>
+                                <TextInput value="Title"/>
+                            </View>
+                                <View style={styles.seperator} />
+
+                            <View style={styles.LogMeta}>
+                                <Text style={styles.TitleText}>Start Time:</Text>
+                                <Text style={styles.Text}>{DateDisplay}</Text>
+                            </View>
+                                <View style={styles.seperator} />
+
+                            <View style={styles.LogMeta}>
+                                <Text style={styles.TitleText}>End Time:</Text>
+                            </View>
+
                         </View>
-                        <View style={styles.LogMeta}>
-                            <Text style={styles.Text}>Workout Title:</Text>
-                            <TextInput value="Title"/>
-                        </View>
-                        <View style={styles.LogMeta}>
-                            <Text style={styles.Text}>Workout Title:</Text>
-                            <TextInput value="Title"/>
+                        <View style={styles.toggleOptions}>
+                            <EllipseMenu />
                         </View>
                     </View>
-                    <View style={styles.toggleOptions}>
-
+                    <View>
+                        <AppButton>
+                        </AppButton>
                     </View>
-
-                </View>
+                </ScrollView>
             </SafeAreaView>
         </BackgroundLinearGradient>
     )
@@ -36,34 +48,52 @@ const styles = StyleSheet.create({
     SafeAreaView: {
         width: '100%',
         height: '100%',
-        borderColor: 'red',
-        borderWidth:2
     },
     MainContainer: {
-        borderColor: 'green',
-        borderWidth:2,
         display:'flex',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        borderRadius: 20,
+        marginVertical: 12,
+        marginHorizontal: 8,
+        backgroundColor: '#2a2a2a',
     },
 
     LogMetaContainer: {
-        borderColor: 'blue',
-        borderWidth:2,
+        // borderColor: 'blue',
+        // borderWidth:2,
         flex: 3,
+        alignItems: 'center',
+        paddingVertical: 5,
     },
     LogMeta: {
-        backgroundColor: '#1c1c1c',
-        borderColor: 'red',
-        borderWidth:2,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        paddingHorizontal: 20,
+        paddingVertical: 8,
+        width: '100%',
+        marginLeft: 20,
     },
 
+    seperator: {
+        height: 1,
+        width: '80%',
+        backgroundColor: 'white',
+        marginVertical: 2,
+    },
     toggleOptions:{
-        borderColor: 'purple',
-        borderWidth:2,
-        flex: 2,
+        // borderColor: 'purple',
+        // borderWidth:2,
+        flex: 1,
+        justifyContent: 'flex-end',
+        flexDirection: 'row',
+        paddingRight: 10,
+        paddingTop: 5,
+    },
+    TitleText: {
+        color: 'white',
+        fontWeight: 'bold',
+        marginRight: 8,
     },
     Text: {
         color: 'white',
-    },
+    }
 });

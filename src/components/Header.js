@@ -8,7 +8,7 @@ export default function Header ({ navigation, title }) {
     return (
         <SafeAreaView style={styles.SafeArea}>
                 <View style={styles.container}>
-                    <HamburgerIcon onPress={() => navigation.toggleDrawer()} />
+                    <HamburgerIcon style={styles.icon} onPress={() => navigation.toggleDrawer()} />
                     <Text style={styles.title}>BULK HQ</Text>
                 </View>
         </SafeAreaView>
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     },
 
     container: {
-        height: 70,
+        height: 60,
         backgroundColor: '#1d1d1d',
         paddingHorizontal: 18,
         paddingBottom: 10,
