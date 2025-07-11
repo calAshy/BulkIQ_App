@@ -52,6 +52,11 @@ export default function HomeScreen({ navigation }) {
               onPress={() => navigation.navigate("Workout Form")}
             />
           </View>
+          <View style={styles.NotificationContainer}>
+            <Text style={styles.NotificationText}>
+              🔔 Notifications go here
+            </Text>
+          </View>
         </ScrollView>
       </View>
       <BottomNav />
@@ -111,5 +116,16 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: 300,
     fontSize: 15,
+  },
+
+  NotificationContainer: {
+    backgroundColor: "#595959",
+    padding: 16,
+    borderRadius: 12,
+    marginVertical: 16,
+  },
+  NotificationText: {
+    color: "#ccc",
+    fontSize: 16,
   },
 });
