@@ -1,99 +1,180 @@
-import React from "react";
-import { View, StyleSheet, LogBox, Text, SafeAreaView, TextInput, ScrollView} from 'react-native';
+import React, { useState } from "react";
+import {
+  View,
+  StyleSheet,
+  LogBox,
+  Text,
+  TextInput,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BackgroundLinearGradient } from "../../utils/BackgroundLinearGradient";
 import { DateDisplay } from "../../utils/CurrentDate";
 import EllipseMenu from "../../components/EllipseMenu";
 import AppButton from "../../components/AppButton";
 
 export default function WorkoutForm() {
-    return(
-        <BackgroundLinearGradient>
-            <SafeAreaView style={styles.SafeAreaView}>
-                <ScrollView style={styles.SafeAreaView}>
-                    <View style={styles.MainContainer}>
-                        <View style={styles.LogMetaContainer}>
+  const insets = useSafeAreaInsets();
+  const [workoutName, setWorkoutName] = useState("");
 
-                            <View style={styles.LogMeta}>
-                                <Text style={styles.TitleText}>Workout Title:</Text>
-                                <TextInput value="Title"/>
-                            </View>
-                                <View style={styles.seperator} />
+  return (
+    <BackgroundLinearGradient>
+      <ScrollView
+        style={[
+          styles.container,
+          {
+            // paddingTop: insets.top,
+            paddingBottom: insets.bottom,
+            paddingLeft: 16 + insets.left,
+            paddingRight: 16 + insets.right,
+          },
+        ]}
+      >
+        <View style={styles.workoutContainer}>
+          <View style={styles.LogMetaContainer}>
+            <View style={styles.LogMeta}>
+              <Text style={styles.TitleText}>Name:</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder="Title"
+                placeholderTextColor={"#ccc"}
+                value={workoutName}
+                onChangeText={setWorkoutName}
+              />
+            </View>
+            <View style={styles.seperator} />
 
-                            <View style={styles.LogMeta}>
-                                <Text style={styles.TitleText}>Start Time:</Text>
-                                <Text style={styles.Text}>{DateDisplay}</Text>
-                            </View>
-                                <View style={styles.seperator} />
+            <View style={styles.LogMeta}>
+              <Text style={styles.TitleText}>Start Time:</Text>
+              <Text style={styles.Text}>{DateDisplay}</Text>
+            </View>
+            <View style={styles.seperator} />
 
-                            <View style={styles.LogMeta}>
-                                <Text style={styles.TitleText}>End Time:</Text>
-                            </View>
+            <View style={styles.LogMeta}>
+              <Text style={styles.TitleText}>End Time:</Text>
+            </View>
+          </View>
+          <View style={styles.toggleOptions}>
+            <EllipseMenu />
+          </View>
+        </View>
+        <View style={styles.buttonContainer}>
+          {/* Full-width Button */}
+          <TouchableOpacity style={styles.fullButton}>
+            <Text style={styles.buttonText}>add exercise</Text>
+          </TouchableOpacity>
 
-                        </View>
-                        <View style={styles.toggleOptions}>
-                            <EllipseMenu />
-                        </View>
-                    </View>
-                    <View>
-                        <AppButton>
-                        </AppButton>
-                    </View>
-                </ScrollView>
-            </SafeAreaView>
-        </BackgroundLinearGradient>
-    )
-};
+          {/* Row of Two Buttons */}
+          <View style={styles.rowButtons}>
+            <TouchableOpacity style={styles.halfButton}>
+              <Text style={styles.buttonText}>workout template</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.halfButton}>
+              <Text style={styles.buttonText}>finish workout</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
+    </BackgroundLinearGradient>
+  );
+}
 
 const styles = StyleSheet.create({
-    SafeAreaView: {
-        width: '100%',
-        height: '100%',
-    },
-    MainContainer: {
-        display:'flex',
-        flexDirection: 'row',
-        borderRadius: 20,
-        marginVertical: 12,
-        marginHorizontal: 8,
-        backgroundColor: '#2a2a2a',
-    },
+  container: {
+    borderColor: "blue",
+    borderWidth: 2,
+    width: "100%",
+  },
+  content: {
+    borderColor: "red",
+    borderWidth: 2,
+  },
 
-    LogMetaContainer: {
-        // borderColor: 'blue',
-        // borderWidth:2,
-        flex: 3,
-        alignItems: 'center',
-        paddingVertical: 5,
-    },
-    LogMeta: {
-        flexDirection: 'row',
-        paddingHorizontal: 20,
-        paddingVertical: 8,
-        width: '100%',
-        marginLeft: 20,
-    },
+  workoutContainer: {
+    display: "flex",
+    flexDirection: "row",
+    borderRadius: 20,
+    marginVertical: 12,
+    paddingHorizontal: 0,
+    backgroundColor: "#2a2a2a",
+  },
+  LogMeta: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    width: "100%",
+    // marginLeft: 20,
+  },
 
-    seperator: {
-        height: 1,
-        width: '80%',
-        backgroundColor: 'white',
-        marginVertical: 2,
-    },
-    toggleOptions:{
-        // borderColor: 'purple',
-        // borderWidth:2,
-        flex: 1,
-        justifyContent: 'flex-end',
-        flexDirection: 'row',
-        paddingRight: 10,
-        paddingTop: 5,
-    },
-    TitleText: {
-        color: 'white',
-        fontWeight: 'bold',
-        marginRight: 8,
-    },
-    Text: {
-        color: 'white',
-    }
+  //   seperator: {
+  //     height: 1,
+  //     width: "80%",
+  //     backgroundColor: "white",
+  //     marginVertical: 2,
+  //   },
+
+  toggleOptions: {
+    // borderColor: "purple",
+    // borderWidth: 2,
+    flex: 1,
+    justifyContent: "flex-end",
+    flexDirection: "row",
+    paddingRight: 10,
+    paddingTop: 5,
+  },
+  TitleText: {
+    color: "white",
+    fontWeight: "bold",
+    marginRight: 8,
+  },
+  Text: {
+    color: "white",
+  },
+  textInput: {
+    color: "#ccc",
+    fontSize: 16,
+    paddingVertical: 0,
+    marginVertical: 0,
+    includeFontPadding: false,
+    textAlignVertical: "center",
+    marginVertical: 0,
+    flex: 1,
+  },
+
+  buttonContainer: {
+    width: "100%",
+    // paddingVertical: 8,
+  },
+  fullButton: {
+    backgroundColor: "#1d1d1d",
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: "#595959",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 50,
+    marginBottom: 8,
+  },
+  rowButtons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  halfButton: {
+    width: "49%",
+    backgroundColor: "#1d1d1d",
+    borderColor: "#595959",
+    borderWidth: 1,
+    borderRadius: 10,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 14,
+  },
 });
