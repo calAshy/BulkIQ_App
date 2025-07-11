@@ -38,15 +38,15 @@ export default function HomeScreen({ navigation }) {
           </View>
         </View>
         <ScrollView
-          style={styles.scrollView}
+          style={styles.ContentView}
           contentContainerStyle={{
             paddingLeft: 16 + insets.left,
             paddingRight: 16 + insets.right,
             paddingTop: 12,
           }}
         >
-          <View style={styles.ScrollHeaderRow}>
-            <Text style={styles.ScrollHeaderTitle}>Workout Diary</Text>
+          <View style={styles.ContentHeaderRow}>
+            <Text style={styles.ContentHeaderTitle}>Workout Diary</Text>
             <SecondaryButton
               title="Start a workout"
               onPress={() => navigation.navigate("Workout Form")}
@@ -88,25 +88,6 @@ const styles = StyleSheet.create({
     // borderColor: "yellow",
     // borderWidth: 2,
   },
-
-  scrollView: {
-    flex: 1,
-    // paddingHorizontal: 20,
-    // width: "100%",
-    borderColor: "green",
-    borderWidth: 2,
-  },
-  ScrollHeaderRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  ScrollHeaderTitle: {
-    color: "white",
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-
   WelcomeText: {
     color: "white",
     fontWeight: 800,
@@ -116,6 +97,24 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: 300,
     fontSize: 15,
+  },
+
+  ContentView: {
+    flex: 1,
+    // paddingHorizontal: 20,
+    // width: "100%",
+    borderColor: "green",
+    borderWidth: 2,
+  },
+  ContentHeaderRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  ContentHeaderTitle: {
+    color: "white",
+    fontSize: 24,
+    fontWeight: "bold",
   },
 
   NotificationContainer: {
