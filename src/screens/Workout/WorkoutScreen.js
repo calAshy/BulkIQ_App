@@ -7,6 +7,7 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
+  Modal,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BackgroundLinearGradient } from "../../utils/BackgroundLinearGradient";
@@ -17,6 +18,8 @@ import AppButton from "../../components/AppButton";
 export default function WorkoutForm() {
   const insets = useSafeAreaInsets();
   const [workoutName, setWorkoutName] = useState("");
+
+  const [isModalVisible, setModalVisible] = useState(false);
 
   return (
     <BackgroundLinearGradient>
@@ -61,7 +64,10 @@ export default function WorkoutForm() {
         </View>
         <View style={styles.buttonContainer}>
           {/* Full-width Button */}
-          <TouchableOpacity style={styles.fullButton}>
+          <TouchableOpacity
+            style={styles.fullButton}
+            onPress={() => setModalVisible(true)}
+          >
             <Text style={styles.buttonText}>add exercise</Text>
           </TouchableOpacity>
 
@@ -77,6 +83,27 @@ export default function WorkoutForm() {
           </View>
         </View>
       </ScrollView>
+
+      <Modal
+        visible={isModalVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <View style={styles.closeButtonContainer}>
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={() => setModalVisible(false)}
+              >
+                <Text style={styles.buttonText}>Close</Text>
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.modalText}>Modal is visible!</Text>
+          </View>
+        </View>
+      </Modal>
     </BackgroundLinearGradient>
   );
 }
@@ -176,5 +203,36 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     fontSize: 14,
+  },
+
+  modalOverlay: {
+    flex: 1,
+    display: "flex",
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    width: "90%",
+    height: "90%",
+    backgroundColor: "#141414",
+    borderRadius: 10,
+    borderColor: "#dadada",
+    borderWidth: 2,
+    marginTop: "5%",
+  },
+  closeButtonContainer: {
+    position: "absolute",
+    top: 12,
+    right: 12,
+    zIndex: 1,
+  },
+  closeButton: {
+    padding: 8,
+  },
+  modalText: {
+    color: "white",
+    fontSize: 16,
+    marginVertical: 16,
   },
 });
