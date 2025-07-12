@@ -37,6 +37,7 @@ export default function HomeScreen({ navigation }) {
             <Text style={styles.DateText}>{formattedDate}</Text>
           </View>
         </View>
+        {/* Header Row */}
         <ScrollView
           style={styles.ContentView}
           contentContainerStyle={{
@@ -52,11 +53,14 @@ export default function HomeScreen({ navigation }) {
               onPress={() => navigation.navigate("Workout Form")}
             />
           </View>
+          {/* Notification Placeholder */}
           <View style={styles.NotificationContainer}>
             <Text style={styles.NotificationText}>
               🔔 Notifications go here
             </Text>
           </View>
+          {/* Recent Workouts */}
+          <Text style={styles.SectionTitle}></Text>
         </ScrollView>
       </View>
       <BottomNav />
