@@ -34,6 +34,17 @@ export default function WorkoutForm() {
     "Calves",
   ];
 
+  const muscleData = {
+    Chest: ["Bench Press", "Incline Dumbbell Press", "Chest Fly"],
+    Back: ["Pull-Up", "Bent Over Row", "Deadlift"],
+    Legs: ["Squat", "Leg Press", "Lunge"],
+    Biceps: ["Bicep Curl", "Hammer Curl", "Preacher Curl"],
+    Triceps: ["Tricep Pushdown", "Kickbacks", "Overhead Tricep Extension"],
+    Shoulders: ["Overhead Press", "Lateral Raise", "Face Pull"],
+    Core: ["Plank", "Russian Twist", "Hanging Leg Raise"],
+    Calves: ["Don't ask Dan cos he wouldn't fucking know"],
+  };
+
   return (
     <BackgroundLinearGradient>
       <ScrollView
@@ -141,6 +152,13 @@ export default function WorkoutForm() {
                 </TouchableOpacity>
               ))}
             </ScrollView>
+            <View style={styles.exerciseList}>
+              {muscleData[selectedMuscle]?.map((exercise, index) => (
+                <View key={index} style={styles.exerciseItem}>
+                  <Text style={styles.exerciseText}>{exercise}</Text>
+                </View>
+              ))}
+            </View>
           </View>
         </View>
       </Modal>
@@ -305,5 +323,22 @@ const styles = StyleSheet.create({
   },
   muscleTextSelected: {
     color: "black",
+  },
+
+  exerciseList: {
+    marginTop: 48,
+    paddingHorizontal: 16,
+  },
+  exerciseItem: {
+    backgroundColor: "#1d1d1d",
+    padding: 12,
+    borderRadius: 8,
+    borderColor: "#333",
+    borderWidth: 1,
+    marginBottom: 12,
+  },
+  exerciseText: {
+    color: "white",
+    fintSize: 16,
   },
 });
