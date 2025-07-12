@@ -20,6 +20,19 @@ export default function WorkoutForm() {
   const [workoutName, setWorkoutName] = useState("");
 
   const [isModalVisible, setModalVisible] = useState(false);
+  const [selectedMuscle, setSelectedMuscle] = useState(null);
+
+  const muscleGroups = [
+    "Chest",
+    "Back",
+    "Legs",
+    "Shoulders",
+    "Biceps",
+    "Triceps",
+    "Core",
+    "Glutes",
+    "Calves",
+  ];
 
   return (
     <BackgroundLinearGradient>
@@ -101,6 +114,33 @@ export default function WorkoutForm() {
               </TouchableOpacity>
             </View>
             <Text style={styles.modalText}>Modal is visible!</Text>
+
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={styles.muscleScroll}
+              contentContainerStyle={styles.muscleScrollContent}
+            >
+              {muscleGroups.map((muscle) => (
+                <TouchableOpacity
+                  key={muscle}
+                  style={[
+                    styles.muscleButton,
+                    selectedMuscle === muscle && styles.muscleButtonSelected,
+                  ]}
+                  onPress={() => setSelectedMuscle(muscle)}
+                >
+                  <Text
+                    style={[
+                      styles.muscleText,
+                      selectedMuscle === muscle && styles.muscleTextSelected,
+                    ]}
+                  >
+                    {muscle}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
           </View>
         </View>
       </Modal>
@@ -234,5 +274,36 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     marginVertical: 16,
+    paddingLeft: 16,
+  },
+
+  muscleScroll: {
+    marginTop: 32,
+    maxHeight: 50,
+  },
+  muscleScrollContent: {
+    paddingHorizontal: 12,
+    alignItems: "center",
+  },
+  muscleButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    backgroundColor: "#2a2a2a",
+    borderRadius: 20,
+    marginRight: 8,
+    borderColor: "#444",
+    borderWidth: 1,
+  },
+  muscleButtonSelected: {
+    backgroundColor: "#ddd",
+    borderColor: "#ccc",
+  },
+  muscleText: {
+    color: "white",
+    fontSize: 14,
+    fontWeight: "600",
+  },
+  muscleTextSelected: {
+    color: "black",
   },
 });
