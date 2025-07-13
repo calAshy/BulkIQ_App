@@ -8,12 +8,16 @@ import {
   ScrollView,
   TouchableOpacity,
   Modal,
+  Dimensions,
+  Platform,
+  KeyboardAvoidingView,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BackgroundLinearGradient } from "../../utils/BackgroundLinearGradient";
+
 import { DateDisplay } from "../../utils/CurrentDate";
 import EllipseMenu from "../../components/EllipseMenu";
-import AppButton from "../../components/AppButton";
+import ExerciseBox from "../../components/ExerciseBox";
 
 export default function WorkoutForm() {
   const insets = useSafeAreaInsets();
@@ -49,128 +53,102 @@ export default function WorkoutForm() {
 
   return (
     <BackgroundLinearGradient>
-      <ScrollView
-        style={[
-          styles.container,
-          {
-            // paddingTop: insets.top,
-            paddingBottom: insets.bottom,
-            paddingLeft: 16 + insets.left,
-            paddingRight: 16 + insets.right,
-          },
-        ]}
+      <KeyboardAvoidingView
+        style={{
+          flex: 1,
+          paddingBottom: insets.bottom > 0 ? insets.bottom + 8 : 16,
+        }}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
       >
-        <View style={styles.workoutContainer}>
-          <View style={styles.LogMetaContainer}>
-            <View style={styles.LogMeta}>
-              <Text style={styles.TitleText}>Name:</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Title"
-                placeholderTextColor={"#ccc"}
-                value={workoutName}
-                onChangeText={setWorkoutName}
-              />
-            </View>
-
-            <View style={styles.LogMeta}>
-              <Text style={styles.TitleText}>Start Time:</Text>
-              <Text style={styles.Text}>{DateDisplay}</Text>
-            </View>
-
-            <View style={styles.LogMeta}>
-              <Text style={styles.TitleText}>End Time:</Text>
-            </View>
-          </View>
-          <View style={styles.toggleOptions}>
-            <EllipseMenu />
-          </View>
-        </View>
-
-        {/* Create exercise box */}
-        {selectedExercise.map((exercise, exerciseIndex) => (
-          <View key={exerciseIndex} style={styles.exerciseBox}>
-            <Text style={styles.exerciseName}>{exercise.name}</Text>
-
-            {exercise.sets.map((set, setIndex) => (
-              <View key={setIndex} style={styles.inputRow}>
+        <ScrollView
+          style={[
+            styles.container,
+            {
+              paddingHorizontal: 16,
+            },
+          ]}
+          contentContainerStyle={{
+            paddingBottom: Platform.OS === "android" ? 80 : 32 + insets.bottom, // padding at the bottom of the scroll view
+          }}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={styles.workoutContainer}>
+            <View style={styles.LogMetaContainer}>
+              <View style={styles.LogMeta}>
+                <Text style={styles.TitleText}>Name:</Text>
                 <TextInput
-                  style={styles.input}
-                  placeholder="weight"
+                  style={styles.textInput}
+                  placeholder="Title"
                   placeholderTextColor={"#ccc"}
-                  value={set.weight}
-                  onChangeText={(text) => {
-                    const updatedExercise = [...selectedExercise];
-                    updatedExercise[exerciseIndex].sets[setIndex].weight = text;
-                    setSelectedExercise(updatedExercise);
-                  }}
-                />
-                <TextInput
-                  style={styles.input}
-                  placeholder="reps"
-                  placeholderTextColor={"#ccc"}
-                  value={set.reps}
-                  onChangeText={(text) => {
-                    const updatedExercise = [...selectedExercise];
-                    updatedExercise[exerciseIndex].sets[setIndex].reps = text;
-                    setSelectedExercise(updatedExercise);
-                  }}
-                />
-                <TextInput
-                  style={styles.input}
-                  placeholder="notes"
-                  placeholderTextColor={"#ccc"}
-                  value={set.notes}
-                  onChangeText={(text) => {
-                    const updatedExercise = [...selectedExercise];
-                    updatedExercise[exerciseIndex].sets[setIndex].notes = text;
-                    setSelectedExercise(updatedExercise);
-                  }}
+                  value={workoutName}
+                  onChangeText={setWorkoutName}
                 />
               </View>
-            ))}
 
-            <TouchableOpacity
-              style={styles.addSet}
-              onPress={() => {
-                const updatedExercise = [...selectedExercise];
-                updatedExercise[exerciseIndex] = {
-                  ...updatedExercise[exerciseIndex],
+              <View style={styles.LogMeta}>
+                <Text style={styles.TitleText}>Start Time:</Text>
+                <Text style={styles.Text}>{DateDisplay}</Text>
+              </View>
+
+              <View style={styles.LogMeta}>
+                <Text style={styles.TitleText}>End Time:</Text>
+              </View>
+            </View>
+            <View style={styles.toggleOptions}>
+              <EllipseMenu />
+            </View>
+          </View>
+
+          {/* Create exercise box */}
+          {selectedExercise.map((exercise, index) => (
+            <ExerciseBox
+              key={index}
+              exercise={exercise}
+              index={index}
+              onChangeSet={(exerciseIndex, setIndex, field, value) => {
+                const updateExercises = [...selectedExercise];
+                updateExercises[exerciseIndex].sets[setIndex][field] = value;
+                setSelectedExercise(updateExercises);
+              }}
+              onAddSet={(exerciseIndex) => {
+                const updateExercises = [...selectedExercise];
+                updateExercises[exerciseIndex] = {
+                  ...updateExercises[exerciseIndex],
                   sets: [
-                    ...updatedExercise[exerciseIndex].sets,
+                    ...updateExercises[exerciseIndex].sets,
                     { weight: "", reps: "", notes: "" },
                   ],
                 };
-                setSelectedExercise(updatedExercise);
+                setSelectedExercise(updateExercises);
               }}
+            />
+          ))}
+
+          {/* Buttons */}
+          <View style={styles.buttonContainer}>
+            {/* Full-width Button */}
+            <TouchableOpacity
+              style={styles.fullButton}
+              onPress={() => setModalVisible(true)}
             >
-              <Text style={styles.addSetButton}>add set</Text>
+              <Text style={styles.buttonText}>add exercise</Text>
             </TouchableOpacity>
+
+            {/* Row of Two Buttons */}
+            <View style={styles.rowButtons}>
+              <TouchableOpacity style={styles.halfButton}>
+                <Text style={styles.buttonText}>workout template</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.halfButton}>
+                <Text style={styles.buttonText}>finish workout</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        ))}
-
-        {/* Buttons */}
-        <View style={styles.buttonContainer}>
-          {/* Full-width Button */}
-          <TouchableOpacity
-            style={styles.fullButton}
-            onPress={() => setModalVisible(true)}
-          >
-            <Text style={styles.buttonText}>add exercise</Text>
-          </TouchableOpacity>
-
-          {/* Row of Two Buttons */}
-          <View style={styles.rowButtons}>
-            <TouchableOpacity style={styles.halfButton}>
-              <Text style={styles.buttonText}>workout template</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.halfButton}>
-              <Text style={styles.buttonText}>finish workout</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
 
       <Modal
         visible={isModalVisible}
@@ -246,8 +224,8 @@ export default function WorkoutForm() {
 
 const styles = StyleSheet.create({
   container: {
-    borderColor: "blue",
-    borderWidth: 2,
+    // borderColor: "blue",
+    // borderWidth: 2,
     width: "100%",
   },
   content: {
@@ -411,50 +389,5 @@ const styles = StyleSheet.create({
   exerciseText: {
     color: "white",
     fintSize: 16,
-  },
-
-  exerciseBox: {
-    backgroundColor: "#2a2a2a",
-    padding: 16,
-    borderRadius: 10,
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: "#444",
-  },
-  exerciseName: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 16,
-    marginBottom: 8,
-  },
-  inputRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 8,
-  },
-  input: {
-    flex: 1,
-    backgroundColor: "#1d1d1d",
-    borderColor: "#595959",
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 8,
-    marginRight: 8,
-    color: "#fff",
-  },
-  addSet: {
-    marginTop: 12,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    backgroundColor: "#2a2a2a",
-    borderRadius: 8,
-    alignSelf: "flex-start",
-    borderWidth: 1,
-    borderColor: "#444",
-  },
-  addSetButton: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 14,
   },
 });
