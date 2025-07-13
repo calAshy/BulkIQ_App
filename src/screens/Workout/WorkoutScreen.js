@@ -87,27 +87,65 @@ export default function WorkoutForm() {
           </View>
         </View>
 
-        {selectedExercise.map((exercise, index) => (
-          <View key={index} style={styles.exerciseBox}>
-            <Text style={styles.exerciseName}>{exercise}</Text>
-            <View style={styles.inputRow}>
-              <TextInput
-                style={styles.input}
-                placeholder="Weight"
-                placeholderTextColor={"#ccc"}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Reps"
-                placeholderTextColor={"#ccc"}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Notes"
-                placeholderTextColor={"#ccc"}
-                multiline
-              />
-            </View>
+        {/* Create exercise box */}
+        {selectedExercise.map((exercise, exerciseIndex) => (
+          <View key={exerciseIndex} style={styles.exerciseBox}>
+            <Text style={styles.exerciseName}>{exercise.name}</Text>
+
+            {exercise.sets.map((set, setIndex) => (
+              <View key={setIndex} style={styles.inputRow}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="weight"
+                  placeholderTextColor={"#ccc"}
+                  value={set.weight}
+                  onChangeText={(text) => {
+                    const updatedExercise = [...selectedExercise];
+                    updatedExercise[exerciseIndex].sets[setIndex].weight = text;
+                    setSelectedExercise(updatedExercise);
+                  }}
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="reps"
+                  placeholderTextColor={"#ccc"}
+                  value={set.reps}
+                  onChangeText={(text) => {
+                    const updatedExercise = [...selectedExercise];
+                    updatedExercise[exerciseIndex].sets[setIndex].reps = text;
+                    setSelectedExercise(updatedExercise);
+                  }}
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="notes"
+                  placeholderTextColor={"#ccc"}
+                  value={set.notes}
+                  onChangeText={(text) => {
+                    const updatedExercise = [...selectedExercise];
+                    updatedExercise[exerciseIndex].sets[setIndex].notes = text;
+                    setSelectedExercise(updatedExercise);
+                  }}
+                />
+              </View>
+            ))}
+
+            <TouchableOpacity
+              style={styles.addSet}
+              onPress={() => {
+                const updatedExercise = [...selectedExercise];
+                updatedExercise[exerciseIndex] = {
+                  ...updatedExercise[exerciseIndex],
+                  sets: [
+                    ...updatedExercise[exerciseIndex].sets,
+                    { weight: "", reps: "", notes: "" },
+                  ],
+                };
+                setSelectedExercise(updatedExercise);
+              }}
+            >
+              <Text style={styles.addSetButton}>add set</Text>
+            </TouchableOpacity>
           </View>
         ))}
 
@@ -178,13 +216,20 @@ export default function WorkoutForm() {
                 </TouchableOpacity>
               ))}
             </ScrollView>
+
             <View style={styles.exerciseList}>
               {muscleData[selectedMuscle]?.map((exercise, index) => (
                 <TouchableOpacity
                   key={index}
                   style={styles.exerciseItem}
                   onPress={() => {
-                    setSelectedExercise([...selectedExercise, exercise]);
+                    setSelectedExercise((prev) => [
+                      ...prev,
+                      {
+                        name: exercise,
+                        sets: [{ weight: "", reps: "", notes: "" }],
+                      },
+                    ]);
                     setModalVisible(false);
                   }}
                 >
@@ -386,5 +431,30 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 8,
+  },
+  input: {
+    flex: 1,
+    backgroundColor: "#1d1d1d",
+    borderColor: "#595959",
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 8,
+    marginRight: 8,
+    color: "#fff",
+  },
+  addSet: {
+    marginTop: 12,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    backgroundColor: "#2a2a2a",
+    borderRadius: 8,
+    alignSelf: "flex-start",
+    borderWidth: 1,
+    borderColor: "#444",
+  },
+  addSetButton: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 14,
   },
 });
