@@ -17,10 +17,12 @@ import AppButton from "../../components/AppButton";
 
 export default function WorkoutForm() {
   const insets = useSafeAreaInsets();
-  const [workoutName, setWorkoutName] = useState("");
 
   const [isModalVisible, setModalVisible] = useState(false);
+  const [workoutName, setWorkoutName] = useState("");
   const [selectedMuscle, setSelectedMuscle] = useState(null);
+
+  const [selectedExercise, setSelectedExercise] = useState([]);
 
   const muscleGroups = [
     "Chest",
@@ -70,13 +72,11 @@ export default function WorkoutForm() {
                 onChangeText={setWorkoutName}
               />
             </View>
-            <View style={styles.seperator} />
 
             <View style={styles.LogMeta}>
               <Text style={styles.TitleText}>Start Time:</Text>
               <Text style={styles.Text}>{DateDisplay}</Text>
             </View>
-            <View style={styles.seperator} />
 
             <View style={styles.LogMeta}>
               <Text style={styles.TitleText}>End Time:</Text>
@@ -86,6 +86,32 @@ export default function WorkoutForm() {
             <EllipseMenu />
           </View>
         </View>
+
+        {selectedExercise.map((exercise, index) => (
+          <View key={index} style={styles.exerciseBox}>
+            <Text style={styles.exerciseName}>{exercise}</Text>
+            <View style={styles.inputRow}>
+              <TextInput
+                style={styles.input}
+                placeholder="Weight"
+                placeholderTextColor={"#ccc"}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Reps"
+                placeholderTextColor={"#ccc"}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Notes"
+                placeholderTextColor={"#ccc"}
+                multiline
+              />
+            </View>
+          </View>
+        ))}
+
+        {/* Buttons */}
         <View style={styles.buttonContainer}>
           {/* Full-width Button */}
           <TouchableOpacity
@@ -154,9 +180,16 @@ export default function WorkoutForm() {
             </ScrollView>
             <View style={styles.exerciseList}>
               {muscleData[selectedMuscle]?.map((exercise, index) => (
-                <View key={index} style={styles.exerciseItem}>
+                <TouchableOpacity
+                  key={index}
+                  style={styles.exerciseItem}
+                  onPress={() => {
+                    setSelectedExercise([...selectedExercise, exercise]);
+                    setModalVisible(false);
+                  }}
+                >
                   <Text style={styles.exerciseText}>{exercise}</Text>
-                </View>
+                </TouchableOpacity>
               ))}
             </View>
           </View>
@@ -193,13 +226,6 @@ const styles = StyleSheet.create({
     width: "100%",
     // marginLeft: 20,
   },
-
-  //   seperator: {
-  //     height: 1,
-  //     width: "80%",
-  //     backgroundColor: "white",
-  //     marginVertical: 2,
-  //   },
 
   toggleOptions: {
     // borderColor: "purple",
@@ -340,5 +366,25 @@ const styles = StyleSheet.create({
   exerciseText: {
     color: "white",
     fintSize: 16,
+  },
+
+  exerciseBox: {
+    backgroundColor: "#2a2a2a",
+    padding: 16,
+    borderRadius: 10,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: "#444",
+  },
+  exerciseName: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
+    marginBottom: 8,
+  },
+  inputRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 8,
   },
 });
