@@ -2,26 +2,20 @@ import React, { useState } from "react";
 import {
   View,
   StyleSheet,
-  LogBox,
   Text,
   TextInput,
   ScrollView,
   TouchableOpacity,
   Modal,
-  Dimensions,
-  Platform,
-  KeyboardAvoidingView,
 } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { BackgroundLinearGradient } from "../../utils/BackgroundLinearGradient";
 
+import { BackgroundLinearGradient } from "../../utils/BackgroundLinearGradient.js";
+import ScreenLayout from "../../components/ScreenLayout";
 import { DateDisplay } from "../../utils/CurrentDate";
 import EllipseMenu from "../../components/EllipseMenu";
 import ExerciseBox from "../../components/ExerciseBox";
 
 export default function WorkoutForm() {
-  const insets = useSafeAreaInsets();
-
   const [isModalVisible, setModalVisible] = useState(false);
   const [workoutName, setWorkoutName] = useState("");
   const [selectedMuscle, setSelectedMuscle] = useState(null);
@@ -53,186 +47,155 @@ export default function WorkoutForm() {
 
   return (
     <BackgroundLinearGradient>
-      <KeyboardAvoidingView
-        style={{
-          flex: 1,
-          paddingBottom: insets.bottom > 0 ? insets.bottom + 8 : 16,
-        }}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
-      >
-        <ScrollView
-          style={[
-            styles.container,
-            {
-              paddingHorizontal: 16,
-            },
-          ]}
-          contentContainerStyle={{
-            paddingBottom: Platform.OS === "android" ? 80 : 32 + insets.bottom, // padding at the bottom of the scroll view
-          }}
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
-        >
-          <View style={styles.workoutContainer}>
-            <View style={styles.LogMetaContainer}>
-              <View style={styles.LogMeta}>
-                <Text style={styles.TitleText}>Name:</Text>
-                <TextInput
-                  style={styles.textInput}
-                  placeholder="Title"
-                  placeholderTextColor={"#ccc"}
-                  value={workoutName}
-                  onChangeText={setWorkoutName}
-                />
-              </View>
-
-              <View style={styles.LogMeta}>
-                <Text style={styles.TitleText}>Start Time:</Text>
-                <Text style={styles.Text}>{DateDisplay}</Text>
-              </View>
-
-              <View style={styles.LogMeta}>
-                <Text style={styles.TitleText}>End Time:</Text>
-              </View>
+      <ScreenLayout scrollable keyboardAvoiding>
+        <View style={styles.workoutContainer}>
+          <View style={styles.LogMetaContainer}>
+            <View style={styles.LogMeta}>
+              <Text style={styles.TitleText}>Name:</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder="Title"
+                placeholderTextColor={"#ccc"}
+                value={workoutName}
+                onChangeText={setWorkoutName}
+              />
             </View>
-            <View style={styles.toggleOptions}>
-              <EllipseMenu />
+
+            <View style={styles.LogMeta}>
+              <Text style={styles.TitleText}>Start Time:</Text>
+              <Text style={styles.Text}>{DateDisplay}</Text>
+            </View>
+
+            <View style={styles.LogMeta}>
+              <Text style={styles.TitleText}>End Time:</Text>
             </View>
           </View>
-
-          {/* Create exercise box */}
-          {selectedExercise.map((exercise, index) => (
-            <ExerciseBox
-              key={index}
-              exercise={exercise}
-              index={index}
-              onChangeSet={(exerciseIndex, setIndex, field, value) => {
-                const updateExercises = [...selectedExercise];
-                updateExercises[exerciseIndex].sets[setIndex][field] = value;
-                setSelectedExercise(updateExercises);
-              }}
-              onAddSet={(exerciseIndex) => {
-                const updateExercises = [...selectedExercise];
-                updateExercises[exerciseIndex] = {
-                  ...updateExercises[exerciseIndex],
-                  sets: [
-                    ...updateExercises[exerciseIndex].sets,
-                    { weight: "", reps: "", notes: "" },
-                  ],
-                };
-                setSelectedExercise(updateExercises);
-              }}
-            />
-          ))}
-
-          {/* Buttons */}
-          <View style={styles.buttonContainer}>
-            {/* Full-width Button */}
-            <TouchableOpacity
-              style={styles.fullButton}
-              onPress={() => setModalVisible(true)}
-            >
-              <Text style={styles.buttonText}>add exercise</Text>
-            </TouchableOpacity>
-
-            {/* Row of Two Buttons */}
-            <View style={styles.rowButtons}>
-              <TouchableOpacity style={styles.halfButton}>
-                <Text style={styles.buttonText}>workout template</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.halfButton}>
-                <Text style={styles.buttonText}>finish workout</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
-
-      <Modal
-        visible={isModalVisible}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <View style={styles.closeButtonContainer}>
-              <TouchableOpacity
-                style={styles.closeButton}
-                onPress={() => setModalVisible(false)}
-              >
-                <Text style={styles.buttonText}>Close</Text>
-              </TouchableOpacity>
-            </View>
-            <Text style={styles.modalText}>Modal is visible!</Text>
-
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              style={styles.muscleScroll}
-              contentContainerStyle={styles.muscleScrollContent}
-            >
-              {muscleGroups.map((muscle) => (
-                <TouchableOpacity
-                  key={muscle}
-                  style={[
-                    styles.muscleButton,
-                    selectedMuscle === muscle && styles.muscleButtonSelected,
-                  ]}
-                  onPress={() => setSelectedMuscle(muscle)}
-                >
-                  <Text
-                    style={[
-                      styles.muscleText,
-                      selectedMuscle === muscle && styles.muscleTextSelected,
-                    ]}
-                  >
-                    {muscle}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
-
-            <View style={styles.exerciseList}>
-              {muscleData[selectedMuscle]?.map((exercise, index) => (
-                <TouchableOpacity
-                  key={index}
-                  style={styles.exerciseItem}
-                  onPress={() => {
-                    setSelectedExercise((prev) => [
-                      ...prev,
-                      {
-                        name: exercise,
-                        sets: [{ weight: "", reps: "", notes: "" }],
-                      },
-                    ]);
-                    setModalVisible(false);
-                  }}
-                >
-                  <Text style={styles.exerciseText}>{exercise}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
+          <View style={styles.toggleOptions}>
+            <EllipseMenu />
           </View>
         </View>
-      </Modal>
+
+        {/* Create exercise box */}
+        {selectedExercise.map((exercise, index) => (
+          <ExerciseBox
+            key={index}
+            exercise={exercise}
+            index={index}
+            onChangeSet={(exerciseIndex, setIndex, field, value) => {
+              const updateExercises = [...selectedExercise];
+              updateExercises[exerciseIndex].sets[setIndex][field] = value;
+              setSelectedExercise(updateExercises);
+            }}
+            onAddSet={(exerciseIndex) => {
+              const updateExercises = [...selectedExercise];
+              updateExercises[exerciseIndex] = {
+                ...updateExercises[exerciseIndex],
+                sets: [
+                  ...updateExercises[exerciseIndex].sets,
+                  { weight: "", reps: "", notes: "" },
+                ],
+              };
+              setSelectedExercise(updateExercises);
+            }}
+          />
+        ))}
+
+        {/* Buttons */}
+        <View style={styles.buttonContainer}>
+          {/* Full-width Button */}
+          <TouchableOpacity
+            style={styles.fullButton}
+            onPress={() => setModalVisible(true)}
+          >
+            <Text style={styles.buttonText}>add exercise</Text>
+          </TouchableOpacity>
+
+          {/* Row of Two Buttons */}
+          <View style={styles.rowButtons}>
+            <TouchableOpacity style={styles.halfButton}>
+              <Text style={styles.buttonText}>workout template</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.halfButton}>
+              <Text style={styles.buttonText}>finish workout</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <Modal
+          visible={isModalVisible}
+          transparent
+          animationType="fade"
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <View style={styles.closeButtonContainer}>
+                <TouchableOpacity
+                  style={styles.closeButton}
+                  onPress={() => setModalVisible(false)}
+                >
+                  <Text style={styles.buttonText}>Close</Text>
+                </TouchableOpacity>
+              </View>
+              <Text style={styles.modalText}>Modal is visible!</Text>
+
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                style={styles.muscleScroll}
+                contentContainerStyle={styles.muscleScrollContent}
+              >
+                {muscleGroups.map((muscle) => (
+                  <TouchableOpacity
+                    key={muscle}
+                    style={[
+                      styles.muscleButton,
+                      selectedMuscle === muscle && styles.muscleButtonSelected,
+                    ]}
+                    onPress={() => setSelectedMuscle(muscle)}
+                  >
+                    <Text
+                      style={[
+                        styles.muscleText,
+                        selectedMuscle === muscle && styles.muscleTextSelected,
+                      ]}
+                    >
+                      {muscle}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+
+              <View style={styles.exerciseList}>
+                {muscleData[selectedMuscle]?.map((exercise, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={styles.exerciseItem}
+                    onPress={() => {
+                      setSelectedExercise((prev) => [
+                        ...prev,
+                        {
+                          name: exercise,
+                          sets: [{ weight: "", reps: "", notes: "" }],
+                        },
+                      ]);
+                      setModalVisible(false);
+                    }}
+                  >
+                    <Text style={styles.exerciseText}>{exercise}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </ScreenLayout>
     </BackgroundLinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    // borderColor: "blue",
-    // borderWidth: 2,
-    width: "100%",
-  },
-  content: {
-    borderColor: "red",
-    borderWidth: 2,
-  },
-
   workoutContainer: {
     display: "flex",
     flexDirection: "row",
@@ -240,6 +203,8 @@ const styles = StyleSheet.create({
     marginVertical: 12,
     paddingHorizontal: 0,
     backgroundColor: "#2a2a2a",
+    borderColor: "blue",
+    borderWidth: 2,
   },
   LogMeta: {
     flexDirection: "row",
@@ -388,6 +353,6 @@ const styles = StyleSheet.create({
   },
   exerciseText: {
     color: "white",
-    fintSize: 16,
+    fontSize: 16,
   },
 });

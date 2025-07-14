@@ -13,6 +13,7 @@ export default function ExerciseBox({
   onChangeSet,
   onAddSet,
 }) {
+  if (!exercise || !Array.isArray(exercise.sets)) return null;
   return (
     <View style={styles.exerciseBox}>
       <Text style={styles.exerciseName}>{exercise.name}</Text>
