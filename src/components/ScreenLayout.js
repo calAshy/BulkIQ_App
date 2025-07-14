@@ -14,23 +14,24 @@ export default function ScreenLayout({
   keyboardAvoiding = false,
   style = {},
 }) {
-  const content = scrollable ? (
-    <ScrollView
+  const Container = scrollable ? ScrollView : View;
+
+  const content = (
+    <Container
       keyboardShouldPersistTaps="handled"
-      contentContainerStyle={[styles.scrollContent]}
+      contentContainerStyle={scrollable ? styles.contentContainer : undefined}
+      style={scrollable ? undefined : styles.flexCenter}
     >
       {children}
-    </ScrollView>
-  ) : (
-    children
+    </Container>
   );
 
   return (
-    <SafeAreaView style={[styles.container, style]}>
+    <SafeAreaView style={styles.safe}>
       {keyboardAvoiding ? (
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={{ flex: 1 }}
+          style={styles.flex}
         >
           {content}
         </KeyboardAvoidingView>
@@ -42,11 +43,20 @@ export default function ScreenLayout({
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safe: {
     flex: 1,
-    paddingHorizontal: 8,
+    paddingHorizontal: 16,
+    paddingTop: 16,
   },
-  scrollContent: {
-    paddingBottom: 80,
+  flex: {
+    flex: 1,
+  },
+  flexCenter: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  contentContainer: {
+    flexGrow: 1,
+    paddingHorizontal: 24,
   },
 });

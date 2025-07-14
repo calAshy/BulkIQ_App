@@ -203,8 +203,8 @@ const styles = StyleSheet.create({
     marginVertical: 12,
     paddingHorizontal: 0,
     backgroundColor: "#2a2a2a",
-    borderColor: "blue",
-    borderWidth: 2,
+    // borderColor: "blue",
+    // borderWidth: 2,
   },
   LogMeta: {
     flexDirection: "row",

@@ -37,18 +37,13 @@ export default function AppButton({
 }
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "black",
-    borderRadius: 3,
-    alignItems: "center",
-    width: 340,
+    width: "100%",
     height: 50,
-    justifyContent: "center",
     borderRadius: 10,
-    margin: 8,
-    borderColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
   },
   text: {
-    color: "white",
     fontWeight: "bold",
     fontSize: 16,
   },

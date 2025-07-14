@@ -15,6 +15,7 @@ import { formattedDate } from "../../utils/CurrentDate.js";
 import { BackgroundLinearGradient } from "../../utils/BackgroundLinearGradient.js";
 import { submitSignOut } from "../../Firebase/authController.js";
 import BottomNav from "../../components/NavBar.js";
+import ScreenLayout from "../../components/ScreenLayout.js";
 
 export default function HomeScreen({ navigation }) {
   const [username, setUsername] = useState("");
@@ -30,7 +31,7 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <BackgroundLinearGradient>
-      <View style={styles.container}>
+      <ScreenLayout>
         <View style={styles.IntroductionContainer}>
           <View style={styles.WelcomeAndDateText}>
             <Text style={styles.WelcomeText}>Welcome, {username}!</Text>
@@ -38,14 +39,7 @@ export default function HomeScreen({ navigation }) {
           </View>
         </View>
         {/* Header Row */}
-        <ScrollView
-          style={styles.ContentView}
-          contentContainerStyle={{
-            paddingLeft: 16 + insets.left,
-            paddingRight: 16 + insets.right,
-            paddingTop: 12,
-          }}
-        >
+        <ScrollView style={styles.ContentView}>
           <View style={styles.ContentHeaderRow}>
             <Text style={styles.ContentHeaderTitle}>Workout Diary</Text>
             <SecondaryButton
@@ -62,28 +56,16 @@ export default function HomeScreen({ navigation }) {
           {/* Recent Workouts */}
           <Text style={styles.SectionTitle}></Text>
         </ScrollView>
-      </View>
-      <BottomNav />
+        <BottomNav />
+      </ScreenLayout>
     </BackgroundLinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    //Safearea View Container.
-    paddingTop: 10,
-    flex: 1,
-    // justifyContent: "space-between",
-    // alignItems: "center",
-    width: "100%",
-    backgroundColor: "transparent",
-    // borderColor: "red",
-    // borderWidth: 2,
-  },
-
   IntroductionContainer: {
-    paddingHorizontal: 16,
-    paddingBottom: 8,
+    // paddingHorizontal: 16,
+    paddingVertical: 16,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -95,20 +77,17 @@ const styles = StyleSheet.create({
   WelcomeText: {
     color: "white",
     fontWeight: 800,
-    fontSize: 20,
+    fontSize: 18,
   },
   DateText: {
-    color: "white",
+    color: "hsl(0,0%,70%)",
     fontWeight: 300,
-    fontSize: 15,
+    fontSize: 16,
   },
 
   ContentView: {
-    flex: 1,
-    // paddingHorizontal: 20,
-    // width: "100%",
-    borderColor: "green",
-    borderWidth: 2,
+    // borderColor: "green",
+    // borderWidth: 2,
   },
   ContentHeaderRow: {
     flexDirection: "row",
@@ -118,7 +97,7 @@ const styles = StyleSheet.create({
   ContentHeaderTitle: {
     color: "white",
     fontSize: 24,
-    fontWeight: "bold",
+    fontWeight: "400",
   },
 
   NotificationContainer: {

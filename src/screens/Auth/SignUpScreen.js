@@ -1,179 +1,159 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet,SafeAreaView, Pressable, Alert } from 'react-native';
-import AppButton from '../../components/AppButton';
-import { LinearGradient } from 'expo-linear-gradient';
+import React, { useState } from "react";
+import { View, Text, StyleSheet, Alert } from "react-native";
+import { useForm } from "react-hook-form";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../../Firebase/firebase";
+import { doc, setDoc } from "firebase/firestore";
+
+import AppButton from "../../components/AppButton";
 import AuthFormInput from "../../components/AuthFormInput";
-import { useForm } from 'react-hook-form';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth, db } from '../../Firebase/firebase';
-import { doc, setDoc } from 'firebase/firestore';
-
-
+import { BackgroundLinearGradient } from "../../utils/BackgroundLinearGradient";
+import ScreenLayout from "../../components/ScreenLayout";
 
 export default function SignUpScreen({ navigation }) {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-    const {control, handleSubmit, formState: { errors } } = useForm();
-    const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
-    //This is the logic for the SignUp Auth
-    const handleSignUp = async ( data ) => {
-        const {name, email, password } = data;
+  const handleSignUp = async (data) => {
+    const { name, email, password } = data;
 
-            try {
-                //Step 1: Create the user with the email and password.
-                const userCredential = await createUserWithEmailAndPassword( auth, email, password);
-                const user = userCredential.user;
-                
-                //Step 2: Save the username and email to the firestore.
-                await setDoc(doc(db, 'users', user.uid), {
-                    username: name, 
-                    email: email, 
-                    createdAt: new Date(),
-                });
-                
-                Alert.alert('Sign up Successful', `username: ${name}/n Email: ${email}`)
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
 
-            } catch (err) {
-                setError(err.message);
-            }
-    };
+      await setDoc(doc(db, "users", user.uid), {
+        username: name,
+        email: email,
+        createdAt: new Date(),
+      });
 
-    return (
-        <LinearGradient
-            colors={['#1d1d1d', '#0a0a0a', '#0a0a0a', '#1d1d1d']}
-            style = {styles.gradientStyles}
-        >
-            <SafeAreaView style={styles.container}>
-                <View style={styles.TitleAndTagLineStyles}>
-                    <Text style={styles.Wordmark}>BULK IQ</Text>
-                    <Text style={styles.text}>Sign Up</Text>
-                </View>
-                <View style={styles.FormContainer}>
-                    <AuthFormInput
-                        name="name"
-                        control={control}
-                        placeholder="Username"
-                        rules={{ required: "Name is required" }}
-                    />
-                    <AuthFormInput
-                        name="email"
-                        control={control}
-                        placeholder="Email"
-                        rules={{ required: "Email is required" }}
-                    />
-                    <AuthFormInput
-                        name="password"
-                        control={control}
-                        placeholder="Password"
-                        secureTextEntry
-                        rules={{ required: "Password is required" }}
-                    />
-                    {/*
-                    <View style={styles.divider} />
-                    <AuthFormInput
-                        name="age"
-                        control={control}
-                        placeholder="Age"
-                        rules={{ required: "Age is required" }}
-                    />
-                    <AuthFormInput
-                        name="Weight"
-                        control={control}
-                        placeholder="Current Weight"
-                        rules={{ required: "Weight is required" }}
-                    />
-                    <AuthFormInput
-                        name="Height"
-                        control={control}
-                        placeholder="Enter a height"
-                        rules={{ required: "Height is required" }}
-                    />
-                    */}
-                </View>
-                <View style={styles.ButtonPositioning}>
-                    <AppButton 
-                        title = "SIGN UP" 
-                        variant='dark'
-                        onPress={handleSubmit(handleSignUp)}
-                    />
-                </View>
-                <View style={styles.LoginTextContainer}>
-                    <Text style={styles.text}>Already have an account?{' '}
-                            <Text style={styles.LoginLink} onPress={() => navigation.navigate("Login Screen")}>
-                                Log In
-                            </Text>
-                    </Text>
-                </View>
-            </SafeAreaView>
-        </LinearGradient>
-    )
+      Alert.alert("Sign up Successful", `Username: ${name}\nEmail: ${email}`);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  return (
+    <BackgroundLinearGradient>
+      <ScreenLayout>
+        <View style={styles.content}>
+          <View style={styles.topContent}>
+            <View style={styles.titleContainer}>
+              <Text style={styles.wordmark}>BULK IQ</Text>
+              <Text style={styles.subtitle}>Sign Up</Text>
+            </View>
+
+            <View style={styles.form}>
+              <AuthFormInput
+                name="name"
+                control={control}
+                placeholder="Username"
+                rules={{ required: "Username is required" }}
+              />
+              <AuthFormInput
+                name="email"
+                control={control}
+                placeholder="Email"
+                rules={{ required: "Email is required" }}
+              />
+              <AuthFormInput
+                name="password"
+                control={control}
+                placeholder="Password"
+                secureTextEntry
+                rules={{ required: "Password is required" }}
+              />
+
+              {error ? <Text style={styles.error}>{error}</Text> : null}
+
+              <View style={styles.signUpButton}>
+                <AppButton
+                  title="SIGN UP"
+                  variant="dark"
+                  onPress={handleSubmit(handleSignUp)}
+                />
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>
+              Already have an account?{" "}
+              <Text
+                style={styles.link}
+                onPress={() => navigation.navigate("Login Screen")}
+              >
+                Log In
+              </Text>
+            </Text>
+          </View>
+        </View>
+      </ScreenLayout>
+    </BackgroundLinearGradient>
+  );
 }
 
 const styles = StyleSheet.create({
-    gradientStyles:{
-        flex:1, 
-        width: '100%',
-        height: '100%',
-        justifyContent: 'center',
-        alignItems: 'center', 
-    },
-    container: {
-        flex:1, 
-        justifyContent: 'space-between',
-        alignItems: 'strech', 
-        width: '100%'
-    },
+  content: {
+    flex: 1,
+    justifyContent: "space-between",
+    paddingVertical: 32,
+    paddingHorizontal: 24,
+  },
+  topContent: {
+    flex: 1,
+    justifyContent: "center",
+    paddingBottom: 20,
+  },
+  titleContainer: {
+    alignItems: "center",
+    marginBottom: 32,
+  },
+  wordmark: {
+    color: "#fff",
+    fontWeight: "800",
+    fontSize: 40,
+    letterSpacing: 2,
+    marginBottom: 6,
+  },
+  subtitle: {
+    fontSize: 18,
+    fontWeight: "400",
+    color: "#fff",
+  },
 
-    TitleAndTagLineStyles: {
-        flex: 1,
-        height: 100,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        color: '#fffff',
-    },
+  form: {
+    gap: 20,
+    marginVertical: 32,
+    width: "100%",
+  },
+  error: {
+    color: "red",
+    textAlign: "left",
+    fontSize: 14,
+  },
+  signUpButton: {
+    marginTop: 32,
+  },
 
-    Wordmark: {
-        color: 'white',
-        fontWeight: 800,
-        fontSize: 40,
-        marginBottom: 8,
-    },
-
-    text: {
-        color: 'white',
-    },
-
-    FormContainer: {
-        flex: 1, 
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
-        marginBottom: 120,
-    },
-
-    ButtonPositioning: {
-        flex:0,
-        marginBottom: 30,
-        alignItems: 'center',
-    },
-
-    divider: {
-        height: 1,
-        backgroundColor: 'white',
-        width: '100%', 
-        marginVertical: 20,
-        marginLeft: 10,
-        MarginRight: 10,
-        justifyContent: 'cemter',
-    },
-
-    LoginTextContainer: {
-        alignItems: 'center',
-    },
-
-    LoginLink: {
-        fontWeight: 'bold',
-        color: 'white',
-    },
-})
+  footer: {
+    alignItems: "center",
+    paddingBottom: 16,
+  },
+  footerText: {
+    color: "hsl(0, 0%, 70%)",
+  },
+  link: {
+    fontWeight: "800",
+    color: "hsl(0, 0%, 90%)",
+  },
+});

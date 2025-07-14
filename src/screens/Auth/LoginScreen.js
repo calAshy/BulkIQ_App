@@ -1,20 +1,13 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-} from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { LinearGradient } from "expo-linear-gradient";
+import { View, Text, StyleSheet } from "react-native";
 import AppButton from "../../components/AppButton";
 import AuthFormInput from "../../components/AuthFormInput";
 import { useForm } from "react-hook-form";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../Firebase/firebase";
 import { useState } from "react";
+import { BackgroundLinearGradient } from "../../utils/BackgroundLinearGradient";
+import ScreenLayout from "../../components/ScreenLayout";
 
 export default function LoginScreen({ navigation }) {
   //Login Auth Logic
@@ -53,115 +46,106 @@ export default function LoginScreen({ navigation }) {
     }
   };
   //Login Auth Logic End.
-  const insets = useSafeAreaInsets();
   return (
-    <LinearGradient
-      colors={["#1d1d1d", "#0a0a0a", "#0a0a0a", "#1d1d1d"]}
-      style={styles.gradient}
-    >
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={[
-          styles.container,
-          {
-            paddingTop: insets.top,
-            paddingBottom: insets.bottom,
-          },
-        ]}
-      >
-        <ScrollView
-          contentContainerStyle={styles.content}
-          keyboardShouldPersistTaps="handled"
-        >
-          <View style={styles.header}>
-            <Text style={styles.wordmark}>BULK IQ</Text>
-            <Text style={styles.subtitle}>Login</Text>
+    <BackgroundLinearGradient>
+      <ScreenLayout>
+        <View style={styles.content}>
+          <View style={styles.topContent}>
+            <View style={styles.titleContainer}>
+              <Text style={styles.wordmark}>BULK IQ</Text>
+              <Text style={styles.subtitle}>Login</Text>
+            </View>
+            <View style={styles.form}>
+              <AuthFormInput
+                name="email"
+                control={control}
+                placeholder={"Email or Username"}
+                rules={{ required: "Email is required" }}
+              />
+              <AuthFormInput
+                name={"password"}
+                control={control}
+                placeholder={"Password"}
+                secureTextEntry
+                rules={{ required: "Password is required" }}
+              />
+
+              {loginError ? (
+                <Text style={styles.error}> {loginError} </Text>
+              ) : null}
+
+              <Text
+                style={styles.forgot}
+                onPress={() => alert("Navigate to Forgot Password")}
+              >
+                Forgot Password?
+              </Text>
+              <View style={styles.loginButton}>
+                <AppButton
+                  title="LOGIN"
+                  variant="light"
+                  onPress={handleSubmit(onLogin)}
+                />
+              </View>
+            </View>
           </View>
-          <View style={styles.form}>
-            <AuthFormInput
-              name="email"
-              control={control}
-              placeholder={"Email or Username"}
-              rules={{ required: "Email is required" }}
-            />
-            <AuthFormInput
-              name={"password"}
-              control={control}
-              placeholder={"Password"}
-              secureTextEntry
-              rules={{ required: "Password is required" }}
-            />
-
-            {loginError ? (
-              <Text style={styles.error}> {loginError} </Text>
-            ) : null}
-
-            <Text
-              style={styles.forgot}
-              onPress={() => alert("Navigate to Forgot Password")}
-            >
-              Forgot Password?
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>
+              Don't have an account?{" "}
+              <Text
+                style={styles.link}
+                onPress={() => navigation.navigate("Sign Up Screen")}
+              >
+                Sign Up
+              </Text>
             </Text>
           </View>
-          <AppButton
-            title="LOGIN"
-            variant="light"
-            onPress={handleSubmit(onLogin)}
-          />
-        </ScrollView>
-      </KeyboardAvoidingView>
-      <View style={[styles.footer, { paddingBottom: insets.bottom }]}>
-        <Text style={styles.footerText}>
-          Don't have an account?{" "}
-          <Text
-            style={styles.link}
-            onPress={() => navigation.navigate("Sign Up Screen")}
-          >
-            Sign Up
-          </Text>
-        </Text>
-      </View>
-    </LinearGradient>
+        </View>
+      </ScreenLayout>
+    </BackgroundLinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  gradient: {
-    flex: 1,
-  },
-  container: {
-    flex: 1,
-    width: "100%",
-  },
   content: {
-    flexGrow: 1,
-    justifyContent: "center",
-    paddingHorizontal: 24,
+    flex: 1,
+    justifyContent: "space-between",
     paddingVertical: 32,
+    paddingHorizontal: 24,
+    // borderWidth: 1,
+    // borderColor: "blue",
   },
-  header: {
+  topContent: {
+    flex: 1,
+    justifyContent: "center",
+    paddingBottom: 20,
+  },
+  titleContainer: {
     alignItems: "center",
-    marginBottom: 64,
+    marginBottom: 32,
   },
   wordmark: {
     color: "#fff",
     fontWeight: "800",
     fontSize: 40,
-    marginBottom: 8,
+    letterSpacing: 2,
+    marginBottom: 6,
   },
   subtitle: {
     fontSize: 18,
+    fontWeight: "400",
     color: "#fff",
   },
+
   form: {
-    gap: 16,
-    marginBottom: 32,
+    gap: 20,
+    marginVertical: 32,
+    width: "100%",
   },
   forgot: {
-    color: "#ccc",
-    width: "100%",
+    color: "hsl(0, 0%, 70%)",
     textAlign: "right",
-    paddingRight: 20,
+    // paddingRight: 20,
     // marginTop: 10,
   },
   error: {
@@ -169,14 +153,20 @@ const styles = StyleSheet.create({
     textAlign: "left",
     fontSize: 14,
   },
+
+  loginButton: {
+    marginTop: 32,
+  },
+
   footer: {
     alignItems: "center",
     paddingBottom: 16,
   },
   footerText: {
-    color: "#fff",
+    color: "hsl(0, 0%, 70%)",
   },
   link: {
-    fontWeight: "bold",
+    fontWeight: "800",
+    color: "hsl(0, 0%, 90%)",
   },
 });
