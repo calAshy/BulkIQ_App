@@ -31,6 +31,7 @@ export default function MainNavigation() {
     return (
         <Drawer.Navigator screenOptions={{ headerShown: false }}>
             <Drawer.Screen name="Home" component={HomeStackNavigator} />
+            <Drawer.Screen name="Workout" component={HomeStackNavigator} />
         </Drawer.Navigator>
     )
 }
