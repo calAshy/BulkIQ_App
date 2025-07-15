@@ -42,10 +42,10 @@ export default function HomeScreen({ navigation }) {
         <ScrollView style={styles.ContentView}>
           <View style={styles.ContentHeaderRow}>
             <Text style={styles.ContentHeaderTitle}>Workout Diary</Text>
-            <SecondaryButton
+            {/* <SecondaryButton
               title="Start a workout"
               onPress={() => navigation.navigate("Workout Form")}
-            />
+            /> */}
           </View>
           {/* Notification Placeholder */}
           <View style={styles.NotificationContainer}>
@@ -56,19 +56,18 @@ export default function HomeScreen({ navigation }) {
           {/* Recent Workouts */}
           <Text style={styles.SectionTitle}></Text>
         </ScrollView>
-        <BottomNav />
       </ScreenLayout>
+      <BottomNav />
     </BackgroundLinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   IntroductionContainer: {
-    // paddingHorizontal: 16,
-    paddingVertical: 16,
+    paddingVertical: 12,
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
+
     // borderBottomWidth: 1,
     // borderColor: "rgba(255,255,255,0.2)",
     // borderColor: "yellow",
