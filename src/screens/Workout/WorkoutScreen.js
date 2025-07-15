@@ -48,77 +48,79 @@ export default function WorkoutForm() {
   return (
     <BackgroundLinearGradient>
       <ScreenLayout scrollable keyboardAvoiding>
-        <View style={styles.workoutContainer}>
-          <View style={styles.LogMetaContainer}>
-            <View style={styles.LogMeta}>
-              <Text style={styles.TitleText}>Name:</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Title"
-                placeholderTextColor={"#ccc"}
-                value={workoutName}
-                onChangeText={setWorkoutName}
-              />
-            </View>
+        <View stles={styles.container}>
+          <View style={styles.workoutContainer}>
+            <View style={styles.LogMetaContainer}>
+              <View style={styles.LogMeta}>
+                <Text style={styles.TitleText}>Name:</Text>
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="Title"
+                  placeholderTextColor={"#ccc"}
+                  value={workoutName}
+                  onChangeText={setWorkoutName}
+                />
+              </View>
 
-            <View style={styles.LogMeta}>
-              <Text style={styles.TitleText}>Start Time:</Text>
-              <Text style={styles.Text}>{DateDisplay}</Text>
-            </View>
+              <View style={styles.LogMeta}>
+                <Text style={styles.TitleText}>Start Time:</Text>
+                <Text style={styles.Text}>{DateDisplay}</Text>
+              </View>
 
-            <View style={styles.LogMeta}>
-              <Text style={styles.TitleText}>End Time:</Text>
+              <View style={styles.LogMeta}>
+                <Text style={styles.TitleText}>End Time:</Text>
+              </View>
+            </View>
+            <View style={styles.toggleOptions}>
+              <EllipseMenu />
             </View>
           </View>
-          <View style={styles.toggleOptions}>
-            <EllipseMenu />
-          </View>
-        </View>
 
-        {/* Create exercise box */}
-        {selectedExercise.map((exercise, index) => (
-          <ExerciseBox
-            key={index}
-            exercise={exercise}
-            index={index}
-            onChangeSet={(exerciseIndex, setIndex, field, value) => {
-              const updateExercises = [...selectedExercise];
-              updateExercises[exerciseIndex].sets[setIndex][field] = value;
-              setSelectedExercise(updateExercises);
-            }}
-            onAddSet={(exerciseIndex) => {
-              const updateExercises = [...selectedExercise];
-              updateExercises[exerciseIndex] = {
-                ...updateExercises[exerciseIndex],
-                sets: [
-                  ...updateExercises[exerciseIndex].sets,
-                  { weight: "", reps: "", notes: "" },
-                ],
-              };
-              setSelectedExercise(updateExercises);
-            }}
-          />
-        ))}
+          {/* Create exercise box */}
+          {selectedExercise.map((exercise, index) => (
+            <ExerciseBox
+              key={index}
+              exercise={exercise}
+              index={index}
+              onChangeSet={(exerciseIndex, setIndex, field, value) => {
+                const updateExercises = [...selectedExercise];
+                updateExercises[exerciseIndex].sets[setIndex][field] = value;
+                setSelectedExercise(updateExercises);
+              }}
+              onAddSet={(exerciseIndex) => {
+                const updateExercises = [...selectedExercise];
+                updateExercises[exerciseIndex] = {
+                  ...updateExercises[exerciseIndex],
+                  sets: [
+                    ...updateExercises[exerciseIndex].sets,
+                    { weight: "", reps: "", notes: "" },
+                  ],
+                };
+                setSelectedExercise(updateExercises);
+              }}
+            />
+          ))}
 
-        {/* Buttons */}
-        <View style={styles.buttonContainer}>
-          {/* Full-width Button */}
-          <TouchableOpacity
-            style={styles.fullButton}
-            onPress={() => setModalVisible(true)}
-          >
-            <Text style={styles.buttonText}>add exercise</Text>
-          </TouchableOpacity>
-
-          {/* Row of Two Buttons */}
-          <View style={styles.rowButtons}>
-            <TouchableOpacity style={styles.halfButton}>
-              <Text style={styles.buttonText}>workout template</Text>
+          {/* Buttons */}
+          <View style={styles.buttonContainer}>
+            {/* Full-width Button */}
+            <TouchableOpacity
+              style={styles.fullButton}
+              onPress={() => setModalVisible(true)}
+            >
+              <Text style={styles.buttonText}>add exercise</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.halfButton}>
-              <Text style={styles.buttonText}>finish workout</Text>
-            </TouchableOpacity>
+            {/* Row of Two Buttons */}
+            <View style={styles.rowButtons}>
+              <TouchableOpacity style={styles.halfButton}>
+                <Text style={styles.buttonText}>workout template</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.halfButton}>
+                <Text style={styles.buttonText}>finish workout</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
 
@@ -196,10 +198,12 @@ export default function WorkoutForm() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   workoutContainer: {
-    display: "flex",
     flexDirection: "row",
-    borderRadius: 20,
+    borderRadius: 10,
     marginVertical: 12,
     paddingHorizontal: 0,
     backgroundColor: "#2a2a2a",
