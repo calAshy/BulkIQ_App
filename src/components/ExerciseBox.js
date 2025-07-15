@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Alert,
 } from "react-native";
 
 export default function ExerciseBox({
@@ -13,55 +14,78 @@ export default function ExerciseBox({
   onChangeSet,
   onAddSet,
   onRemoveSet,
+  onRemoveExercise,
 }) {
   if (!exercise || !Array.isArray(exercise.sets)) return null;
   return (
-    <View style={styles.exerciseBox}>
-      <Text style={styles.exerciseName}>{exercise.name}</Text>
+    <TouchableOpacity
+      activeOpacity={1}
+      onLongPress={() => {
+        Alert.alert(
+          "Remove Exercise",
+          `Are you sure you want to remove "${exercise.name}"?`,
+          [
+            { text: "Cancel", style: "cancel" },
+            {
+              text: "Remove",
+              style: "destructive",
+              onPress: onRemoveExercise,
+            },
+          ]
+        );
+      }}
+    >
+      <View style={styles.container}>
+        <Text style={styles.exerciseName}>{exercise.name}</Text>
 
-      {exercise.sets.map((set, setIndex) => (
-        <View key={setIndex} style={styles.setRow}>
-          <TextInput
-            style={styles.setInput}
-            placeholder="weight"
-            placeholderTextColor={"#ccc"}
-            value={set.weight}
-            onChangeText={(text) =>
-              onChangeSet(index, setIndex, "weight", text)
-            }
-          />
-          <TextInput
-            style={styles.setInput}
-            placeholder="reps"
-            placeholderTextColor={"#ccc"}
-            value={set.reps}
-            onChangeText={(text) => onChangeSet(index, setIndex, "reps", text)}
-          />
-          <TextInput
-            style={styles.notesInput}
-            placeholder="notes"
-            placeholderTextColor={"#ccc"}
-            value={set.notes}
-            onChangeText={(text) => onChangeSet(index, setIndex, "notes", text)}
-          />
-          <TouchableOpacity
-            onPress={() => onRemoveSet(index, setIndex)}
-            style={styles.removeButton}
-          >
-            <Text style={styles.removeButtonText}>✕</Text>
-          </TouchableOpacity>
-        </View>
-      ))}
+        {exercise.sets.map((set, setIndex) => (
+          <View key={setIndex} style={styles.setRow}>
+            <TextInput
+              style={styles.setInput}
+              placeholder="weight"
+              placeholderTextColor={"#ccc"}
+              value={set.weight}
+              onChangeText={(text) =>
+                onChangeSet(index, setIndex, "weight", text)
+              }
+            />
+            <TextInput
+              style={styles.setInput}
+              placeholder="reps"
+              placeholderTextColor={"#ccc"}
+              value={set.reps}
+              onChangeText={(text) =>
+                onChangeSet(index, setIndex, "reps", text)
+              }
+            />
+            <TextInput
+              style={styles.notesInput}
+              placeholder="notes"
+              placeholderTextColor={"#ccc"}
+              value={set.notes}
+              onChangeText={(text) =>
+                onChangeSet(index, setIndex, "notes", text)
+              }
+            />
+            <TouchableOpacity
+              onPress={() => onRemoveSet(index, setIndex)}
+              style={styles.removeButton}
+            >
+              <Text style={styles.removeButtonText}>✕</Text>
+            </TouchableOpacity>
+          </View>
+        ))}
 
-      <TouchableOpacity style={styles.addSet} onPress={() => onAddSet(index)}>
-        <Text style={styles.addSetText}>add set</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity style={styles.addSet} onPress={() => onAddSet(index)}>
+          <Text style={styles.addSetText}>+ add set</Text>
+        </TouchableOpacity>
+      </View>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  exerciseBox: {
+  container: {
     backgroundColor: "#2a2a2a",
     padding: 16,
     borderRadius: 10,

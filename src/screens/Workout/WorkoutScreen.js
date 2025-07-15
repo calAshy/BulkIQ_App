@@ -103,6 +103,11 @@ export default function WorkoutForm() {
                 updateExercises[exerciseIndex].sets.splice(setIndex, 1);
                 setSelectedExercise(updateExercises);
               }}
+              onRemoveExercise={() => {
+                const updateExercises = [...selectedExercise];
+                updateExercises.splice(index, 1);
+                setSelectedExercise(updateExercises);
+              }}
             />
           ))}
 
