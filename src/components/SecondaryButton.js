@@ -1,36 +1,28 @@
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
 
-export default function SecondaryButton({title, onPress }){
-    return (
-        <TouchableOpacity
-            onPress={onPress}
-            style={styles.buttonDesign}
-        >
-
-        <Text style={styles.text}>
-            {title}
-        </Text>
-
-        </TouchableOpacity>
-    );
+export default function SecondaryButton({ title, onPress }) {
+  return (
+    <TouchableOpacity onPress={onPress} style={styles.buttonDesign}>
+      <Text style={styles.text}>{title}</Text>
+    </TouchableOpacity>
+  );
 }
 
-const styles = StyleSheet.create ({
-
-buttonDesign: {
+const styles = StyleSheet.create({
+  buttonDesign: {
     borderWidth: 1,
-    borderColor: 'white',
+    borderColor: "white",
     borderRadius: 10,
-    alignContent: 'center',
-    justifyContent: 'center',
+    alignContent: "center",
+    justifyContent: "center",
     paddingHorizontal: 20,
-    paddingVertical: 1,
-},
+    paddingVertical: 2,
+  },
 
-text: {
-    color: 'white',
+  text: {
+    color: "white",
     fontSize: 14,
-    fontWeight: 'bold',
-},
+    fontWeight: "bold",
+  },
 });

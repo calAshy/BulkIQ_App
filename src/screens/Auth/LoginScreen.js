@@ -1,68 +1,61 @@
 import React from "react";
-import { View, Text, StyleSheet, SafeAreaView, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
+import { View, Text, StyleSheet } from "react-native";
 import AppButton from "../../components/AppButton";
 import AuthFormInput from "../../components/AuthFormInput";
 import { useForm } from "react-hook-form";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../Firebase/firebase";
 import { useState } from "react";
+import { BackgroundLinearGradient } from "../../utils/BackgroundLinearGradient";
+import ScreenLayout from "../../components/ScreenLayout";
 
-export default function LoginScreen( { navigation } ) {
-
-
+export default function LoginScreen({ navigation }) {
   //Login Auth Logic
-  const { 
-    control, handleSubmit,formState: { errors },
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
   } = useForm();
 
-  const [loginError, setLoginError] = useState ('');
+  const [loginError, setLoginError] = useState("");
 
   const onLogin = async (data) => {
     const { email, password } = data;
 
-    try{
-      const userCredential = await signInWithEmailAndPassword( auth, email, password);
-    } catch(error) {  
-        switch(error.code){
-          case "auth/invalid-credential":
-          case "auth/wrong-password":
-            setLoginError("Incorrect Password");
-            break;
-          case "auth/invalid-email":
-            setLoginError("Invalid Email.");
-            break;
-          case "auth/user-not-found":
-            setLoginError("No account found with this email.");
-            break;
-          default:
-            setLoginError("Login Failed. Please try again");
-        }
-
-    
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+    } catch (error) {
+      switch (error.code) {
+        case "auth/invalid-credential":
+        case "auth/wrong-password":
+          setLoginError("Incorrect Password");
+          break;
+        case "auth/invalid-email":
+          setLoginError("Invalid Email.");
+          break;
+        case "auth/user-not-found":
+          setLoginError("No account found with this email.");
+          break;
+        default:
+          setLoginError("Login Failed. Please try again");
+      }
     }
   };
-    //Login Auth Logic End.
-
+  //Login Auth Logic End.
   return (
-    <LinearGradient
-      colors={["#1d1d1d", "#0a0a0a", "#0a0a0a", "#1d1d1d"]}
-      style={styles.gradientStyles}
-    >
-      <SafeAreaView style={styles.safeArea}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={styles.container}
-        >
-          <ScrollView
-            contentContainerStyle={styles.scrollView}
-            keyboardShouldPersistTaps="handled"
-          >
+    <BackgroundLinearGradient>
+      <ScreenLayout>
+        <View style={styles.content}>
+          <View style={styles.topContent}>
             <View style={styles.titleContainer}>
-              <Text style={styles.Wordmark}>BULK IQ</Text>
-              <Text style={styles.text}>Login</Text>
+              <Text style={styles.wordmark}>BULK IQ</Text>
+              <Text style={styles.subtitle}>Login</Text>
             </View>
-            <View style={styles.FormContainer}>
+            <View style={styles.form}>
               <AuthFormInput
                 name="email"
                 control={control}
@@ -77,94 +70,103 @@ export default function LoginScreen( { navigation } ) {
                 rules={{ required: "Password is required" }}
               />
 
-              {loginError ? <Text style={{color: 'red' }}> {loginError} </Text> : null}
+              {loginError ? (
+                <Text style={styles.error}> {loginError} </Text>
+              ) : null}
 
               <Text
-                style={styles.ForgotPassword}
+                style={styles.forgot}
                 onPress={() => alert("Navigate to Forgot Password")}
               >
                 Forgot Password?
               </Text>
+              <View style={styles.loginButton}>
+                <AppButton
+                  title="LOGIN"
+                  variant="light"
+                  onPress={handleSubmit(onLogin)}
+                />
+              </View>
             </View>
-            <View style={styles.ButtonContainer}>
-              <AppButton
-                title="LOGIN"
-                variant="light"
-                onPress={handleSubmit(onLogin)}
-              />
-            </View>
-            <View style={styles.SignUpTextContainer}>
-              <Text style={styles.text}>
-                Don't have an account?{" "}
-                <Text
-                  style={styles.SignUpLink}
-                  onPress={() => navigation.navigate("Sign Up Screen")}
-                >
-                  Sign Up
-                </Text>
+          </View>
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>
+              Don't have an account?{" "}
+              <Text
+                style={styles.link}
+                onPress={() => navigation.navigate("Sign Up Screen")}
+              >
+                Sign Up
               </Text>
-            </View>
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </SafeAreaView>
-    </LinearGradient>
+            </Text>
+          </View>
+        </View>
+      </ScreenLayout>
+    </BackgroundLinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  gradientStyles: {
+  content: {
     flex: 1,
+    justifyContent: "space-between",
+    paddingVertical: 32,
+    paddingHorizontal: 24,
+    // borderWidth: 1,
+    // borderColor: "blue",
   },
-  safeArea: {
+  topContent: {
     flex: 1,
-  },
-  container: {
-    flex: 1,
-  },
-  scrollView: {
-    flexGrow: 1,
     justifyContent: "center",
-    alignItems: "center",
-    paddingBottom: 30,
+    paddingBottom: 20,
   },
   titleContainer: {
-    flex: 1,
-    justifyContent: "center",
     alignItems: "center",
+    marginBottom: 32,
   },
-  Wordmark: {
+  wordmark: {
     color: "#fff",
     fontWeight: "800",
     fontSize: 40,
-    marginBottom: 8,
+    letterSpacing: 2,
+    marginBottom: 6,
   },
-  text: {
+  subtitle: {
+    fontSize: 18,
+    fontWeight: "400",
     color: "#fff",
   },
-  FormContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+
+  form: {
+    gap: 20,
+    marginVertical: 32,
     width: "100%",
-    marginBottom: 120,
   },
-  ForgotPassword: {
-    color: "#fff",
-    width: "100%",
+  forgot: {
+    color: "hsl(0, 0%, 70%)",
     textAlign: "right",
-    paddingRight: 20,
-    marginTop: 10,
+    // paddingRight: 20,
+    // marginTop: 10,
   },
-  ButtonContainer: {
-    flex: 0,
-    marginBottom: 30,
+  error: {
+    color: "red",
+    textAlign: "left",
+    fontSize: 14,
+  },
+
+  loginButton: {
+    marginTop: 32,
+  },
+
+  footer: {
     alignItems: "center",
+    paddingBottom: 16,
   },
-  SignUpTextContainer: {
-    alignItems: "center",
-    marginBottom: 30,
+  footerText: {
+    color: "hsl(0, 0%, 70%)",
   },
-  SignUpLink: {
-    fontWeight: "bold",
+  link: {
+    fontWeight: "800",
+    color: "hsl(0, 0%, 90%)",
   },
 });
