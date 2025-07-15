@@ -2,20 +2,18 @@
 
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import HamburgerIcon from "./HamburgerMenu";
 
 export default function Header({ navigation, title }) {
-  const insets = useSafeAreaInsets();
-
-  console.log(insets);
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
+    <View style={styles.container}>
       <HamburgerIcon
         style={styles.icon}
         onPress={() => navigation.toggleDrawer()}
       />
-      <Text style={styles.title}>BULK HQ</Text>
+      <Text style={styles.title}>{title || "BULK HQ"}</Text>
+      {/* Placeholder for spacing */}
+      <View style={styles.placeholder} />
     </View>
   );
 }

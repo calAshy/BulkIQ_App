@@ -1,25 +1,14 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Alert,
-  Button,
-} from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-
-import SecondaryButton from "../../components/SecondaryButton.js";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { fetchUsername } from "../../Firebase/userService.js";
 import { formattedDate } from "../../utils/CurrentDate.js";
 import { BackgroundLinearGradient } from "../../utils/BackgroundLinearGradient.js";
-import { submitSignOut } from "../../Firebase/authController.js";
-import BottomNav from "../../components/NavBar.js";
+
 import ScreenLayout from "../../components/ScreenLayout.js";
+import Header from "../../components/Header.js";
 
 export default function HomeScreen({ navigation }) {
   const [username, setUsername] = useState("");
-  const insets = useSafeAreaInsets();
   //Retrieve and display username code
   useEffect(() => {
     const getUsername = async () => {
@@ -57,7 +46,6 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.SectionTitle}></Text>
         </ScrollView>
       </ScreenLayout>
-      <BottomNav />
     </BackgroundLinearGradient>
   );
 }

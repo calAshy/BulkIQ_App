@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   safe: {
     flex: 1,
     paddingHorizontal: 16,
-    paddingTop: 12,
+    paddingTop: 64,
   },
   flex: {
     flex: 1,
