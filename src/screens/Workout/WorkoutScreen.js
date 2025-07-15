@@ -48,7 +48,7 @@ export default function WorkoutForm() {
   return (
     <BackgroundLinearGradient>
       <ScreenLayout scrollable keyboardAvoiding>
-        <View stles={styles.container}>
+        <View styles={styles.container}>
           <View style={styles.workoutContainer}>
             <View style={styles.LogMetaContainer}>
               <View style={styles.LogMeta}>
@@ -96,6 +96,11 @@ export default function WorkoutForm() {
                     { weight: "", reps: "", notes: "" },
                   ],
                 };
+                setSelectedExercise(updateExercises);
+              }}
+              onRemoveSet={(exerciseIndex, setIndex) => {
+                const updateExercises = [...selectedExercise];
+                updateExercises[exerciseIndex].sets.splice(setIndex, 1);
                 setSelectedExercise(updateExercises);
               }}
             />
@@ -216,7 +221,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 6,
     width: "100%",
-    // marginLeft: 20,
   },
 
   toggleOptions: {
@@ -290,12 +294,11 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     width: "90%",
-    height: "90%",
+    height: "80%",
     backgroundColor: "#141414",
-    borderRadius: 10,
-    borderColor: "#dadada",
+    borderRadius: 16,
+    borderColor: "#3a3a3a",
     borderWidth: 2,
-    marginTop: "5%",
   },
   closeButtonContainer: {
     position: "absolute",

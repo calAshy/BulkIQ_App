@@ -12,6 +12,7 @@ export default function ExerciseBox({
   index,
   onChangeSet,
   onAddSet,
+  onRemoveSet,
 }) {
   if (!exercise || !Array.isArray(exercise.sets)) return null;
   return (
@@ -19,9 +20,9 @@ export default function ExerciseBox({
       <Text style={styles.exerciseName}>{exercise.name}</Text>
 
       {exercise.sets.map((set, setIndex) => (
-        <View key={setIndex} style={styles.inputRow}>
+        <View key={setIndex} style={styles.setRow}>
           <TextInput
-            style={styles.input}
+            style={styles.setInput}
             placeholder="weight"
             placeholderTextColor={"#ccc"}
             value={set.weight}
@@ -30,24 +31,30 @@ export default function ExerciseBox({
             }
           />
           <TextInput
-            style={styles.input}
+            style={styles.setInput}
             placeholder="reps"
             placeholderTextColor={"#ccc"}
             value={set.reps}
             onChangeText={(text) => onChangeSet(index, setIndex, "reps", text)}
           />
           <TextInput
-            style={styles.input}
+            style={styles.notesInput}
             placeholder="notes"
             placeholderTextColor={"#ccc"}
             value={set.notes}
             onChangeText={(text) => onChangeSet(index, setIndex, "notes", text)}
           />
+          <TouchableOpacity
+            onPress={() => onRemoveSet(index, setIndex)}
+            style={styles.removeButton}
+          >
+            <Text style={styles.removeButtonText}>✕</Text>
+          </TouchableOpacity>
         </View>
       ))}
 
       <TouchableOpacity style={styles.addSet} onPress={() => onAddSet(index)}>
-        <Text style={styles.addSetButton}>add set</Text>
+        <Text style={styles.addSetText}>add set</Text>
       </TouchableOpacity>
     </View>
   );
@@ -63,26 +70,52 @@ const styles = StyleSheet.create({
     borderColor: "#444",
   },
   exerciseName: {
-    color: "white",
-    fontWeight: "bold",
+    color: "hsl(0, 0%, 90%)",
+    fontWeight: "400",
     fontSize: 16,
-    marginBottom: 8,
+    paddingBottom: 16,
   },
-  inputRow: {
+
+  setRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 8,
   },
-  input: {
+  setInput: {
     flex: 1,
     backgroundColor: "#1d1d1d",
     borderColor: "#595959",
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 6,
     padding: 8,
-    marginRight: 8,
+    marginHorizontal: 4,
     color: "#fff",
   },
+  notesInput: {
+    flex: 2,
+    marginHorizontal: 4,
+    padding: 8,
+    backgroundColor: "#1d1d1d",
+    borderRadius: 6,
+    borderColor: "#595959",
+    borderWidth: 1,
+    color: "#fff",
+  },
+
+  removeButton: {
+    marginLeft: 6,
+    padding: 6,
+    backgroundColor: "#3a3a3a",
+    borderRadius: 6,
+    borderColor: "#666",
+    borderWidth: 1,
+  },
+  removeButtonText: {
+    color: "#ff5555",
+    fontWeight: "800",
+    fontSize: 14,
+  },
+
   addSet: {
     marginTop: 12,
     paddingVertical: 8,
@@ -93,7 +126,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#444",
   },
-  addSetButton: {
+  addSetText: {
     color: "white",
     fontWeight: "bold",
     fontSize: 14,
