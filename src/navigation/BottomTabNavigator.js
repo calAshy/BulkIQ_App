@@ -9,6 +9,7 @@ import StatsScreen from "../screens/Stats/StatsScreen";
 import WorkoutScreen from "../screens/Workout/WorkoutScreen";
 import FavoritesScreen from "../screens/Favorites/FavoritesScreen";
 import ProfileScreen from "../screens/Profile/ProfileScreen";
+import { BlurView } from "expo-blur";
 
 const Tab = createBottomTabNavigator();
 
@@ -19,6 +20,21 @@ export default function BottomTabNavigator() {
         headerShown: false,
         tabBarShowLabel: true,
         tabBarStyle: styles.tabBar,
+        tabBarBackground: () => (
+          <View style={StyleSheet.absoluteFill}>
+            <BlurView
+              tint="dark"
+              intensity={70}
+              style={StyleSheet.absoluteFill}
+            />
+            <View
+              style={{
+                ...StyleSheet.absoluteFillObject,
+                backgroundColor: "rgba(28, 28, 28, 0.6)",
+              }}
+            />
+          </View>
+        ),
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
@@ -85,12 +101,13 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     marginHorizontal: 20,
-    elevation: 5,
-    backgroundColor: "#1c1c1cff",
-    borderRadius: 12,
+    elevation: 10,
+    borderRadius: 32,
+    borderColor: "rgba(255, 255, 255, 0.15)",
     height: 70,
     paddingHorizontal: 20,
     borderTopWidth: 0,
+    overflow: "hidden",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
