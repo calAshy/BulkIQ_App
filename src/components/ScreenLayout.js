@@ -8,6 +8,8 @@ import {
   StyleSheet,
 } from "react-native";
 
+const TAB_BAR_PADDING = 128;
+
 export default function ScreenLayout({
   children,
   scrollable = false,
@@ -19,8 +21,16 @@ export default function ScreenLayout({
   const content = (
     <Container
       keyboardShouldPersistTaps="handled"
-      contentContainerStyle={scrollable ? styles.contentContainer : undefined}
-      style={scrollable ? undefined : styles.flexCenter}
+      contentContainerStyle={[
+        scrollable ? styles.contentContainer : undefined,
+        { paddingBottom: TAB_BAR_PADDING },
+        style,
+      ]}
+      style={
+        !scrollable
+          ? [styles.flexCenter, { paddingBottom: TAB_BAR_PADDING }, style]
+          : undefined
+      }
     >
       {children}
     </Container>
@@ -57,6 +67,5 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flexGrow: 1,
-    // paddingHorizontal: 24,
   },
 });
