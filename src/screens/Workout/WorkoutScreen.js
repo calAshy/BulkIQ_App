@@ -7,7 +7,19 @@ import {
   ScrollView,
   TouchableOpacity,
   Modal,
+  Alert,
 } from "react-native";
+
+import {
+  addDoc,
+  collection,
+  Timestamp,
+  getFirestore,
+} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+
+const db = getFirestore();
+const auth = getAuth();
 
 import { BackgroundLinearGradient } from "../../utils/BackgroundLinearGradient.js";
 import ScreenLayout from "../../components/ScreenLayout";
@@ -43,6 +55,40 @@ export default function WorkoutScreen() {
     Shoulders: ["Overhead Press", "Lateral Raise", "Face Pull"],
     Core: ["Plank", "Russian Twist", "Hanging Leg Raise"],
     Calves: ["Don't ask Dan cos he wouldn't fucking know"],
+  };
+
+  const handleFinishWorkout = async () => {
+    const user = auth.currentUser;
+
+    if (!user) {
+      Alert.alert("Error", "User not logged in");
+      return;
+    }
+
+    if (!workoutName || selectedExercise.length === 0) {
+      Alert.alert(
+        "Missing info",
+        "Please enter a workout name and at least one exercise"
+      );
+      return;
+    }
+
+    const workoutData = {
+      name: workoutName,
+      userID: user.uid,
+      createdAt: Timestamp.now(),
+      exercises: selectedExercise,
+    };
+
+    try {
+      await addDoc(collection(db, "workouts"), workoutData);
+      Alert.alert("Success", "Workout saved!");
+      setWorkoutName("");
+      setSelectedExercise([]);
+    } catch (error) {
+      console.error("Error saving workout:", error);
+      Alert.alert("Error", "Could not save a workout.");
+    }
   };
 
   return (
@@ -127,7 +173,10 @@ export default function WorkoutScreen() {
                 <Text style={styles.buttonText}>workout template</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.halfButton}>
+              <TouchableOpacity
+                style={styles.halfButton}
+                onPress={handleFinishWorkout}
+              >
                 <Text style={styles.buttonText}>finish workout</Text>
               </TouchableOpacity>
             </View>
