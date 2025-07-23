@@ -15,7 +15,7 @@ import { DateDisplay } from "../../utils/CurrentDate";
 import EllipseMenu from "../../components/EllipseMenu";
 import ExerciseBox from "../../components/ExerciseBox";
 
-export default function WorkoutForm() {
+export default function WorkoutScreen() {
   const [isModalVisible, setModalVisible] = useState(false);
   const [workoutName, setWorkoutName] = useState("");
   const [selectedMuscle, setSelectedMuscle] = useState(null);
