@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 
 import { fetchUsername } from "../../Firebase/userService.js";
 import { formattedDate } from "../../utils/CurrentDate.js";
+import { getMonthAbbreviation, getDay } from "../../utils/Calendar.js";
 import { BackgroundLinearGradient } from "../../utils/BackgroundLinearGradient.js";
 import ScreenLayout from "../../components/ScreenLayout.js";
 
@@ -79,14 +80,24 @@ export default function HomeScreen() {
             <Text style={styles.EmptyText}>No workouts yet. Start one!</Text>
           ) : (
             workouts.map((workout) => (
-              <View key={workout.id} style={styles.card}>
-                <Text style={styles.cardTitle}>{workout.name}</Text>
-                <Text style={styles.cardText}>
-                  Exercises: {workout.exercises.length}
-                </Text>
-                <Text style={styles.cardText}>
-                  Duration: {formatDuration(workout.duration)}
-                </Text>
+              <View key={workout.id} style={styles.cardWrapper}>
+                <View style={styles.calendarBlock}>
+                  <Text style={styles.calendarMonth}>
+                    {getMonthAbbreviation(workout.createdAt)}
+                  </Text>
+                  <Text style={styles.calendarDay}>
+                    {getDay(workout.createdAt)}
+                  </Text>
+                </View>
+                <View style={styles.card}>
+                  <Text style={styles.cardTitle}>{workout.name}</Text>
+                  <Text style={styles.cardText}>
+                    Exercises: {workout.exercises.length}
+                  </Text>
+                  <Text style={styles.cardText}>
+                    Duration: {formatDuration(workout.duration)}
+                  </Text>
+                </View>
               </View>
             ))
           )}
@@ -148,13 +159,38 @@ const styles = StyleSheet.create({
     color: "white",
     paddingBottom: 16,
   },
-  card: {
+  cardWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: "#1d1d1d",
     padding: 16,
     borderRadius: 12,
     marginBottom: 16,
     borderColor: "#444",
     borderWidth: 1,
+    overflow: "hidden",
+  },
+  calendarBlock: {
+    width: 60,
+    height: "80%",
+    backgroundColor: "#ccc",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 12,
+  },
+  calendarMonth: {
+    color: "black",
+    fontSize: 16,
+    fontWeight: 400,
+  },
+  calendarDay: {
+    color: "black",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  card: {
+    flex: 1,
+    paddingHorizontal: 16,
   },
   cardTitle: {
     color: "white",
