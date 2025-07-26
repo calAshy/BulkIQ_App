@@ -73,11 +73,16 @@ export default function WorkoutScreen() {
       return;
     }
 
+    const startTime = Timestamp.now();
+    const endTime = Timestamp.now();
+    const duration = endTime.seconds - startTime.seconds;
+
     const workoutData = {
       name: workoutName,
-      userID: user.uid,
-      createdAt: Timestamp.now(),
+      userId: user.uid,
+      createdAt: endTime,
       exercises: selectedExercise,
+      duration: duration,
     };
 
     try {

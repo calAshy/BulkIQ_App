@@ -1,21 +1,56 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
+
 import { fetchUsername } from "../../Firebase/userService.js";
 import { formattedDate } from "../../utils/CurrentDate.js";
 import { BackgroundLinearGradient } from "../../utils/BackgroundLinearGradient.js";
-
 import ScreenLayout from "../../components/ScreenLayout.js";
-import Header from "../../components/Header.js";
 
-export default function HomeScreen({ navigation }) {
+import {
+  getFirestore,
+  collection,
+  query,
+  where,
+  onSnapshot,
+} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+
+const db = getFirestore();
+const auth = getAuth();
+
+const formatDuration = (seconds) => {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins}m ${secs}s`;
+};
+
+export default function HomeScreen() {
   const [username, setUsername] = useState("");
-  //Retrieve and display username code
+  const [workouts, setWorkouts] = useState([]);
+
   useEffect(() => {
+    const user = auth.currentUser;
+    if (!user) return;
+    //Retrieve and display username code
     const getUsername = async () => {
       const name = await fetchUsername();
       if (name) setUsername(name);
     };
+
+    const q = query(
+      collection(db, "workouts"),
+      where("userId", "==", user.uid)
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const fetched = snapshot.docs.map((doc) => {
+        return { id: doc.id, ...doc.data() };
+      });
+      setWorkouts(fetched.reverse());
+    });
+
     getUsername();
+    return () => unsubscribe();
   }, []);
 
   return (
@@ -31,10 +66,6 @@ export default function HomeScreen({ navigation }) {
         <ScrollView style={styles.ContentView}>
           <View style={styles.ContentHeaderRow}>
             <Text style={styles.ContentHeaderTitle}>Workout Diary</Text>
-            {/* <SecondaryButton
-              title="Start a workout"
-              onPress={() => navigation.navigate("Workout Form")}
-            /> */}
           </View>
           {/* Notification Placeholder */}
           <View style={styles.NotificationContainer}>
@@ -43,7 +74,22 @@ export default function HomeScreen({ navigation }) {
             </Text>
           </View>
           {/* Recent Workouts */}
-          <Text style={styles.SectionTitle}></Text>
+          <Text style={styles.SectionTitle}>Recent Workouts</Text>
+          {workouts.length === 0 ? (
+            <Text style={styles.EmptyText}>No workouts yet. Start one!</Text>
+          ) : (
+            workouts.map((workout) => (
+              <View key={workout.id} style={styles.card}>
+                <Text style={styles.cardTitle}>{workout.name}</Text>
+                <Text style={styles.cardText}>
+                  Exercises: {workout.exercises.length}
+                </Text>
+                <Text style={styles.cardText}>
+                  Duration: {formatDuration(workout.duration)}
+                </Text>
+              </View>
+            ))
+          )}
         </ScrollView>
       </ScreenLayout>
     </BackgroundLinearGradient>
@@ -96,5 +142,32 @@ const styles = StyleSheet.create({
   NotificationText: {
     color: "#ccc",
     fontSize: 16,
+  },
+
+  SectionTitle: {
+    color: "white",
+    paddingBottom: 16,
+  },
+  card: {
+    backgroundColor: "#1d1d1d",
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 16,
+    borderColor: "#444",
+    borderWidth: 1,
+  },
+  cardTitle: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "600",
+    marginBottom: 4,
+  },
+  cardText: {
+    fontSize: 14,
+    color: "#ccc",
+    marginBottom: 4,
+  },
+  EmptyText: {
+    color: "#777",
   },
 });
